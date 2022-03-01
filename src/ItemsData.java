@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ItemsData {
     public ArrayList<MediaItem> items;
@@ -135,15 +136,41 @@ public class ItemsData {
     }
 
     public void AddMusicalAlbum(BufferedReader reader) {
-	System.out.println("Name of item to add: ");
-	String data = "";
-	try {
-	    data = reader.readLine();
-	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
-	}
-	System.out.println("Data read: " + data);
+	MusicalAlbum newItem = new MusicalAlbum();
+	this.AddGeneralAtts(newItem, reader);
+
+	System.out.println("Please enter runtime of album in seconds as integer: ");
+	String runtime = "";
+	runtime = this.ReadLine(reader);
+	newItem.setRuntime(Integer.parseInt(runtime));
+
+	System.out.println("Please enter album artist: ");
+	String artist = "";
+	artist = this.ReadLine(reader);
+	newItem.setArtist(artist);
+
+	System.out.println("Please enter album record label: ");
+	String label = "";
+	label = this.ReadLine(reader);
+	newItem.setRecordLabel(label);
+
+	int counter = 1;
+	String title = "";
+	ArrayList<Song> songs = new ArrayList<Song>();
+	do {
+	    System.out.println("Enter song " + counter + " name or 'Done': ");
+	    title = this.ReadLine(reader);
+	    if (!title.equals("Done")) {
+		Song newSong = new Song(title);
+		songs.add(newSong);
+		counter++;
+	    }
+	} while (!title.equals("Done"));
+	newItem.setSongs(songs);
+
+	this.items.add(newItem);
+	System.out.println("Musical album added");
+
     }
 
     public void EditItem(BufferedReader reader) {
@@ -182,15 +209,66 @@ public class ItemsData {
     }
 
     public void OrderItems(BufferedReader reader) {
-	System.out.println("Order by: ");
-	String data = "";
-	try {
-	    data = reader.readLine();
-	} catch (IOException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+	String orderType = "";
+	// This is horrible
+	do {
+	    System.out.println("Order by 'Alphabetical', 'Reverse alphabetical', 'Published' or 'Reverse published'?");
+	    orderType = this.ReadLine(reader);
+	} while (!(orderType.equals("Alphabetical") || orderType.equals("Reverse alphabetical")
+		|| orderType.equals("Published") || orderType.equals("Reverse published")));
+
+	ArrayList<MediaItem> orderedItems = new ArrayList<MediaItem>(this.items);
+	switch (orderType) {
+	case "Aphabetical":
+	    orderedItems.sort(new AlphabeticalComp());
+	    break;
+	case "Reverse Alphabetical":
+	    orderedItems.sort(new ReverseAlphabeticalComp());
+	    break;
+	case "Published":
+	    orderedItems.sort(new PubDateComp());
+	    break;
+	case "Reverse Published":
+	    orderedItems.sort(new ReversePubDateComp());
+	    break;
+
 	}
-	System.out.println("Data read: " + data);
+
+	for (int i = 0; i < orderedItems.size(); i++) {
+	    MediaItem curr = this.items.get(i);
+	    String type = this.items.get(i).getClass().getSimpleName();
+	    System.out.println("Title: " + curr.title + ", Type: " + type + ", Genre: " + curr.genre + ", Pub. Date: "
+		    + curr.pubDate.toString() + " DOI/EIDR: " + curr.getDoiEdir());
+
+	}
     }
 
+}
+
+class AlphabeticalComp implements Comparator<MediaItem> {
+    @Override
+    public int compare(MediaItem a, MediaItem b) {
+	return a.title.compareToIgnoreCase(b.title);
+    }
+}
+
+class ReverseAlphabeticalComp implements Comparator<MediaItem> {
+    @Override
+    public int compare(MediaItem a, MediaItem b) {
+	return b.title.compareToIgnoreCase(a.title);
+    }
+}
+
+class PubDateComp implements Comparator<MediaItem> {
+    @Override
+    public int compare(MediaItem a, MediaItem b) {
+	return b.pubDate.compareTo(a.pubDate);
+    }
+}
+
+class ReversePubDateComp implements Comparator<MediaItem> {
+    @Override
+    public int compare(MediaItem a, MediaItem b) {
+	return a.pubDate.compareTo(b.pubDate);
+    }
 }
