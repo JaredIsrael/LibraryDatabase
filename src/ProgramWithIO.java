@@ -38,21 +38,21 @@ public final class ProgramWithIO {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	    }
-
+		nextLine = nextLine.toLowerCase(); // sanitzing
 	    switch (nextLine) {
-	    case "Add":
+	    case "add":
 		itemsData.AddItem(reader);
 		break;
-	    case "Edit":
+	    case "edit":
 		itemsData.EditItem(reader);
 		break;
-	    case "Search":
+	    case "search":
 		itemsData.SearchItems(reader);
 		break;
-	    case "Order":
+	    case "order":
 		itemsData.OrderItems(reader);
 		break;
-	    case "End":
+	    case "end":
 		System.out.println("Closing program");
 		break;
 	    default:
@@ -60,7 +60,7 @@ public final class ProgramWithIO {
 		break;
 	    }
 
-	} while (!nextLine.equals("End"));
+	} while (!nextLine.equals("end"));
 
 	// Close reader and catch exception
 	try {

@@ -1,11 +1,16 @@
 import java.time.LocalDate;
 import java.util.List;
 
-public abstract class MediaItem {
+class MediaItem implements Comparable<MediaItem>{
     protected String title;
     protected String doiEidr;
     protected LocalDate pubDate;
     protected String genre;
+
+    @Override
+    public int compareTo(MediaItem a) {
+        return this.title.compareTo(a.title);
+    }
 
     // Not used for now, but this is used to keep track of associated physical
     // copies
@@ -46,5 +51,5 @@ public abstract class MediaItem {
     public void setGenre(String newGenre) {
 	this.genre = newGenre;
     }
-
 }
+

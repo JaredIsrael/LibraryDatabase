@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 
 public class ItemsData {
@@ -32,21 +33,22 @@ public class ItemsData {
 
 	    try {
 		nextLine = reader.readLine();
+		nextLine = nextLine.toLowerCase();
 	    } catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	    }
 
 	    switch (nextLine) {
-	    case "Musical album":
+	    case "musical album":
 		this.AddMusicalAlbum(reader);
 		foundType = true;
 		break;
-	    case "Audio book":
+	    case "audio book":
 		this.AddAudioBook(reader);
 		foundType = true;
 		break;
-	    case "Movie":
+	    case "movie":
 		this.AddMovie(reader);
 		foundType = true;
 		break;
@@ -217,24 +219,23 @@ public class ItemsData {
 	} while (!(orderType.equals("Alphabetical") || orderType.equals("Reverse alphabetical")
 		|| orderType.equals("Published") || orderType.equals("Reverse published")));
 
-	ArrayList<MediaItem> orderedItems = new ArrayList<MediaItem>(this.items);
 	switch (orderType) {
-	case "Aphabetical":
-	    orderedItems.sort(new AlphabeticalComp());
+	case "Alphabetical": // Aphabetical != Alphabetical lol
+	    Collections.sort(this.items);
 	    break;
 	case "Reverse Alphabetical":
-	    orderedItems.sort(new ReverseAlphabeticalComp());
+	    Collections.reverse(this.items);
 	    break;
-	case "Published":
-	    orderedItems.sort(new PubDateComp());
+	case "published":
+	    // orderedItems.sort(new PubDateComp());
 	    break;
-	case "Reverse Published":
-	    orderedItems.sort(new ReversePubDateComp());
+	case "reverse Published":
+	    // orderedItems.sort(new ReversePubDateComp());
 	    break;
 
 	}
 
-	for (int i = 0; i < orderedItems.size(); i++) {
+	for (int i = 0; i < this.items.size(); i++) {
 	    MediaItem curr = this.items.get(i);
 	    String type = this.items.get(i).getClass().getSimpleName();
 	    System.out.println("Title: " + curr.title + ", Type: " + type + ", Genre: " + curr.genre + ", Pub. Date: "
@@ -245,30 +246,30 @@ public class ItemsData {
 
 }
 
-class AlphabeticalComp implements Comparator<MediaItem> {
-    @Override
-    public int compare(MediaItem a, MediaItem b) {
-	return a.title.compareToIgnoreCase(b.title);
-    }
-}
+// class AlphabeticalComp implements Comparator<MediaItem> {
+//     @Override
+//     public int compare(MediaItem a, MediaItem b) {
+// 	return a.title.compareToIgnoreCase(b.title);
+//     }
+// }
 
-class ReverseAlphabeticalComp implements Comparator<MediaItem> {
-    @Override
-    public int compare(MediaItem a, MediaItem b) {
-	return b.title.compareToIgnoreCase(a.title);
-    }
-}
+// class ReverseAlphabeticalComp implements Comparator<MediaItem> {
+//     @Override
+//     public int compare(MediaItem a, MediaItem b) {
+// 	return b.title.compareToIgnoreCase(a.title);
+//     }
+// }
 
-class PubDateComp implements Comparator<MediaItem> {
-    @Override
-    public int compare(MediaItem a, MediaItem b) {
-	return b.pubDate.compareTo(a.pubDate);
-    }
-}
+// class PubDateComp implements Comparator<MediaItem> {
+//     @Override
+//     public int compare(MediaItem a, MediaItem b) {
+// 	return b.pubDate.compareTo(a.pubDate);
+//     }
+// }
 
-class ReversePubDateComp implements Comparator<MediaItem> {
-    @Override
-    public int compare(MediaItem a, MediaItem b) {
-	return a.pubDate.compareTo(b.pubDate);
-    }
-}
+// class ReversePubDateComp implements Comparator<MediaItem> {
+//     @Override
+//     public int compare(MediaItem a, MediaItem b) {
+// 	return a.pubDate.compareTo(b.pubDate);
+//     }
+// }
