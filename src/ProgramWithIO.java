@@ -10,6 +10,10 @@ import java.io.InputStreamReader;
  */
 public final class ProgramWithIO {
 
+    private static String DATABASE = "CP3.db";
+
+    private static String sqlStatement = "SELECT * FROM PERSON;";
+
     /**
      * Private constructor so this utility class cannot be instantiated.
      */
