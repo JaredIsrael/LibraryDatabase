@@ -5,7 +5,7 @@ import java.io.InputStreamReader;
 /**
  * Put a short phrase describing the program here.
  *
- * @author Put your name here
+ * @author Jared Israel
  *
  */
 public final class ProgramWithIO {
@@ -38,7 +38,7 @@ public final class ProgramWithIO {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
 	    }
-		nextLine = nextLine.toLowerCase(); // sanitzing
+	    nextLine = nextLine.toLowerCase(); // sanitzing
 	    switch (nextLine) {
 	    case "add":
 		itemsData.AddItem(reader);
