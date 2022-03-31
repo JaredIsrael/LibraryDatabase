@@ -1,0 +1,1357 @@
+/*RUN BEFORE INSERTION*/
+PRAGMA foreign_keys = 0;
+
+/* AUDIOBOOK - TO KILL A MOCKINGBIRD */
+
+INSERT INTO PERSON
+VALUES ('Harper Lee', '1926-04-28', '1');
+
+INSERT INTO AUTHOR
+VALUES ('1','https://www.goodreads.com/author/show/1825.Harper_Lee');
+
+INSERT INTO PERSON
+VALUES ('Sissy Spacek', '1949-12-25', '2');
+
+INSERT INTO AUTHOR
+VALUES ('2','https://www.goodreads.com/author/show/2124133.Sissy_Spacek');
+
+
+INSERT INTO MEDIA_ITEM 
+VALUES ('To Kill A Mockingbird', '9780435120962', '1960-07-11');
+
+INSERT INTO AUDIOBOOK
+VALUES ('12:17:00', 'Fiction', '1', '2','9780435120962');
+
+INSERT INTO COPY
+VALUES('1','9780435120962', 'Cassette', 'B1', NULL, NULL);
+
+/* AUDIOBOOK - 11/22/63 */
+
+INSERT INTO PERSON
+VALUES ('Stephen King', '1947-09-21', '3');
+
+INSERT INTO AUTHOR
+VALUES ('3','https://www.goodreads.com/author/show/3389.Stephen_King');
+
+INSERT INTO PERSON
+VALUES ('Craig Wasson', '1954-03-15', '4');
+
+INSERT INTO AUTHOR
+VALUES ('4','https://www.goodreads.com/author/list/496245.Craig_Wasson');
+
+INSERT INTO MEDIA_ITEM 
+VALUES ('11/22/63', '14516272297', '2011-11-08');
+
+INSERT INTO AUDIOBOOK
+VALUES ('30:40:00', 'Thriller', '3', '4','14516272297');
+
+INSERT INTO COPY
+VALUES('2','14516272297', 'CD', 'B2', NULL, NULL);
+
+/* AUDIOBOOK - THE CURIOUS INCIDENT OF THE DOG IN THE NIGHTTIME */
+
+INSERT INTO PERSON
+VALUES ('Mark Haddon', '1962-10-28', '5');
+
+INSERT INTO AUTHOR
+VALUES ('5','https://www.goodreads.com/author/show/1050.Mark_Haddon');
+
+INSERT INTO PERSON
+VALUES ('Jeff Woodman', NULL, '6');
+
+INSERT INTO AUTHOR
+VALUES ('6','https://www.goodreads.com/author/show/795682.Jeff_Wasson');
+
+INSERT INTO MEDIA_ITEM 
+VALUES ('The Curious Incident of the Dog in the Nighttime', '9781400032716', '2003-05-01');
+
+INSERT INTO AUDIOBOOK
+VALUES ('06:02:00', 'Fiction', '5', '6','9781400032716');
+
+INSERT INTO COPY
+VALUES('3','9781400032716', 'Digital', 'B3', NULL, NULL);
+
+INSERT INTO COPY
+VALUES('4','9781400032716', 'Digital', 'B3', NULL, NULL);
+
+/* AUDIOBOOK - THINGS FALL APART */
+
+INSERT INTO PERSON
+VALUES ('Chinua Achebe', '1930-11-16', '7');
+
+INSERT INTO AUTHOR
+VALUES ('7','https://www.goodreads.com/author/show/8051.Chinua_Achebe');
+
+INSERT INTO PERSON
+VALUES ('Peter Francis James', NULL, '8');
+
+INSERT INTO AUTHOR
+VALUES ('8','https://www.goodreads.com/author/list/450195.Peter_Francis_James');
+
+INSERT INTO MEDIA_ITEM 
+VALUES ('Things Fall Apart', '9780141023380', '1958-01-01');
+
+INSERT INTO AUDIOBOOK
+VALUES ('02:19:00', 'Fiction', '7', '8','9780141023380');
+
+INSERT INTO PERSON 
+VALUES('Jared Israel', '2001-11-02', '9');
+
+INSERT INTO LIBRARY_PATRON
+VALUES('305 E 16th Ave', 'israel.93@osu.edu',0, '9');
+
+INSERT INTO COPY
+VALUES('5','9780141023380', 'CD', 'B3', '9', '2022-03-21');
+
+/* AUDIOBOOK - RUN, ROSE, RUN: A NOVEL */
+
+INSERT INTO PERSON
+VALUES ('James Patterson', '1947-03-22', '10');
+
+INSERT INTO AUTHOR
+VALUES ('9', 'https://www.goodreads.com/shelf/show/james-patterson');
+
+INSERT INTO PERSON
+VALUES ('Dolly Parton', '1946-01-19', '11');
+
+INSERT INTO AUTHOR
+VALUES ('10', 'https://www.goodreads.com/author/show/144067.Dolly_Parton');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Run, Rose, Run:A Novel', '9780759554344', '2022-03-07');
+
+INSERT INTO AUDIOBOOK
+VALUES ('10:19:00', 'Suspense', '10', '11', '9780759554344');
+
+INSERT INTO COPY
+VALUES ('6', '9780759554344', 'CD', 'B3', NULL, NULL);
+
+/* AUDIOBOOK - THE 1619 PROJECT: A NEW ORIGIN STORY */
+
+INSERT INTO PERSON
+VALUES ('Nikole Hannah-Jones', '1976-04-09', '12');
+
+INSERT INTO AUTHOR
+VALUES ('12', 'https://www.goodreads.com/author/show/6577870.Nikole_Hannah_Jones');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The 1619 Project: A New Origin Story', '9780593230572', '2021-11-16');
+
+INSERT INTO AUDIOBOOK
+VALUES ('18:57:00', 'Non-Fiction', '12', '12','9780593230572');
+
+INSERT INTO COPY
+VALUES ('7', '9780593230572', 'Kindle', 'B3', NULL, NULL);
+
+/* AUDIOBOOK - THE LAST THING HE TOLD ME */
+
+INSERT INTO PERSON
+VALUES ('Laura Dave', '1977-07-18', '13');
+
+INSERT INTO PERSON
+VALUES ('Rebecca Lowman', '1970-02-25', '14');
+
+INSERT INTO AUTHOR
+VALUES ('13', 'https://www.goodreads.com/author/list/2738857.Rebecca_Lowman');
+
+INSERT INTO AUTHOR
+VALUES ('14', 'https://www.goodreads.com/author/show/2672.Laura_Dave');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Last Thing He Told Me', '9781501171345', '2021-05-04');
+
+INSERT INTO AUDIOBOOK
+VALUES ('08:49:00', 'Fiction', '13', '14','9781501171345');
+
+INSERT INTO COPY
+VALUES ('8', '9781501171345', 'CD', 'B1', NULL, NULL);
+
+/* AUDIOBOOK - THE PARIS APARTMENT */
+
+INSERT INTO PERSON
+VALUES ('Lucy Foley', '1986', '15');
+
+INSERT INTO AUTHOR
+VALUES ('15', 'https://www.goodreads.com/author/show/7770523.Lucy_Foley');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Paris Apartment', '9780063003057', '2022-02-22');
+
+INSERT INTO AUDIOBOOK
+VALUES ('12:25:00', 'Mystery', '15', '15','9780063003057');
+
+INSERT INTO COPY
+VALUES ('9', '9780063003057', 'CD', 'C1', NULL, NULL);
+
+/* AUDIOBOOK - THESE TANGLED VINES */
+
+INSERT INTO PERSON
+VALUES ('Julianne MacLean', NULL, '16');
+
+INSERT INTO PERSON
+VALUES ('Carlotta Brentan', NULL, '17');
+
+INSERT INTO AUTHOR
+VALUES ('16', 'https://www.goodreads.com/author/show/186987.Julianne_MacLean');
+
+INSERT INTO AUTHOR
+VALUES ('17', 'https://www.goodreads.com/author/show/18413211.Carlotta_Brentan');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('These Tangled Vines', '9781542025393', '2021-06-01');
+
+INSERT INTO AUDIOBOOK
+VALUES ('09:47:00', 'Romance','16', '17','9781542025393');
+
+INSERT INTO COPY
+VALUES ('10', '9781542025393', 'CD', 'C1', NULL, NULL);
+
+/* AUDIOBOOK - THE MAID */
+
+INSERT INTO PERSON
+VALUES ('Nita Prose', NULL, '18');
+
+INSERT INTO PERSON
+VALUES ('Lauren Ambrose', '1978-02-20', '19');
+
+INSERT INTO AUTHOR
+VALUES ('18', 'https://www.goodreads.com/author/show/20650250.Nita_Prose');
+
+INSERT INTO AUTHOR
+VALUES ('19', 'https://www.goodreads.com/author/show/4580752.Lauren_Ambrose');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Maid', '9780593356159', '2022-01-04');
+
+INSERT INTO AUDIOBOOK
+VALUES ('09:37:00','Mystery', '18', '19','978059300356159');
+
+INSERT INTO COPY
+VALUES ('11', '9780593356159', 'Paperback', 'C1', NULL, NULL);
+
+/* AUDIOBOOK - Apples Never Fall */
+
+INSERT INTO PERSON
+VALUES ('Liane Moriarty', '1966-11-15', '20');
+
+INSERT INTO PERSON
+VALUES ('Caroline Lee', '1953-06-27', '21');
+
+INSERT INTO PERSON
+VALUES ('Arsenio Wynn', '1994-07-27', '22');
+
+INSERT INTO AUTHOR
+VALUES ('20', 'https://www.goodreads.com/author/show/322069.Liane_Moriarty');
+
+INSERT INTO AUTHOR
+VALUES ('21', 'https://www.audible.com/search?searchNarrator=Caroline+Lee');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('Ap #471-3873 Mauris. St.', 'dictum.cursus.nunc@icloud.couk', 0, '22');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Apples Never Fall','9781250220257', '2021-09-14');
+
+INSERT INTO AUDIOBOOK 
+VALUES ('18:03:00','Mystery', '20', '21','9781250220257');
+
+INSERT INTO COPY
+VALUES ('12', '9781250220257', 'CD', 'B1', '22', '2022-08-24');
+
+INSERT INTO COPY
+VALUES ('13', '9781250220257', 'CD', 'B1', '22', '2022-08-24');
+
+/* AUDIOBOOK - THE CLUB */
+
+INSERT INTO PERSON
+VALUES ('Ellery Lloyd', NULL, '23');
+
+INSERT INTO PERSON
+VALUES ('Tamaryn Payne', '1988-09-25', '24');
+
+INSERT INTO PERSON
+VALUES ('Blaze Norton', 'Sep 8, 1996', '25');
+
+INSERT INTO AUTHOR
+VALUES ('23', 'https://www.goodreads.com/author/show/19874425.Ellery_Lloyd');
+
+INSERT INTO AUTHOR
+VALUES ('24', 'https://www.goodreads.com/author/show/18968822.Tamaryn_Payne');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('P.O. Box 869, 5617 Aliquet St.', 'felis.eget.varius@yahoo.ca', 0, '25');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Club','9780062997425', '2022-03-01');
+
+INSERT INTO AUDIOBOOK
+VALUES ('09:22:00','Mystery', '23', '24','97800629097425');
+
+INSERT INTO COPY
+VALUES ('14', '9780062997425', 'CD', 'B2', '25', '2022-12-14');
+
+/* AUDIOBOOK - THE NIGHT SHIFT */
+
+INSERT INTO PERSON
+VALUES ('Alex Finlay', NULL, '26');
+
+INSERT INTO PERSON
+VALUES ('Brittany Pressley', NULL, '27');
+
+INSERT INTO AUTHOR
+VALUES ('26', 'https://www.goodreads.com/author/show/19976903.Alex_Finlay');
+
+INSERT INTO AUTHOR
+VALUES ('27', 'https://www.goodreads.com/author/show/6001952.Brittany_Pressley');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Night Shift','9781250268884', '2022-03-01');
+
+INSERT INTO AUDIOBOOK
+VALUES ('08:34:00','Mystery', '26', '27','97811250268884');
+
+INSERT INTO COPY
+VALUES ('15', '9781250268884', 'Hardcover', 'B1', '25', '2022-12-14');
+
+/* AUDIOBOOK - THE PATIENT'S SECRET */
+
+INSERT INTO PERSON
+VALUES ('Loreth Anne White', NULL, '28');
+
+INSERT INTO AUTHOR
+VALUES ('28', 'https://www.goodreads.com/author/show/150272.Loreth_Anne_White');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Patients Secret','9781542034067', '2022-03-08');
+
+INSERT INTO AUDIOBOOK
+VALUES ('11:18:00','Thriller', '28', '27','9781542034067');
+
+INSERT INTO COPY
+VALUES ('16', '9781542034067', 'CD', 'B2', '22', '2022-12-14');
+
+INSERT INTO COPY
+VALUES ('17', '9781542034067', 'CD', 'B2', '27', '2022-12-13');
+
+INSERT INTO COPY
+VALUES ('18', '9781542034067', 'CD', 'B2', '27', '2022-12-13');
+
+/* AUDIOBOOK - THE WHISPERS */
+
+INSERT INTO PERSON
+VALUES ('Heidi Perks', '1973', '29');
+
+INSERT INTO PERSON
+VALUES ('Karen Cass', NULL, '30');
+
+INSERT INTO PERSON
+VALUES ('Tanner Nelson', '1992-03-04', '31');
+
+INSERT INTO AUTHOR
+VALUES ('29', 'https://www.goodreads.com/author/list/14765336.Heidi_Perks');
+
+INSERT INTO AUTHOR
+VALUES ('30', 'https://www.goodreads.com/author/show/13558500.Karen_Cass');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('5500 Fringilla St.', 'metus.urna@hotmail.org', 0, '31');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Whispers','9781982153250', '2022-03-08');
+
+INSERT INTO AUDIOBOOK
+VALUES ('09:20:00','Thriller', '29', '30','9781982153250');
+
+INSERT INTO COPY
+VALUES ('19', '9781982153250', 'CD', 'B1', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('20', '9781982153250', 'Paperback', 'B2', '31', '2021-03-15');
+
+/* MUSICAL ALBUM - PRAY FOR HAITI */
+
+INSERT INTO PERSON
+VALUES ('Mach-Hommy', NULL, '32');
+
+INSERT INTO PERSON
+VALUES ('Kiayada Washington', '1995-10-02', '33');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('32', 'https://open.spotify.com/artist/3ZMur3elMyOs248ah86NRk','https://music.apple.com/us/artist/mach-hommy/768292263');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('Ap #490-6544 Natoque Ave', 'justo.nec@outlook.org', 0, '33');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Pray For Haiti', '194690528033', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:39:00', 'Griselda Records', 'Rap', '32','194690528033');
+
+INSERT INTO SONG
+VALUES ('The 26th Letter','00:03:39', '194690528033');
+
+INSERT INTO SONG
+VALUES ('No Blood No Sweat', '00:01:54', '194690528033');
+
+INSERT INTO SONG
+VALUES ('Makrel Jaxon', '00:02:00', '194690528033');
+
+INSERT INTO COPY
+VALUES ('21', '194690528033', 'MP3', 'B1', '33', '2021-10-02');
+
+/* MUSICAL ALBUM - SHADE */
+
+INSERT INTO PERSON
+VALUES ('Grouper', '1980', '34');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('34', 'https://open.spotify.com/artist/31uyAcnY0kjjKKIQZMKX4i','https://music.apple.com/us/artist/grouper/428125326');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Shade', '0880918035222', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:35:04', 'Kranky', 'Pop', '34','0880918035222');
+
+INSERT INTO SONG
+VALUES ('Followed the ocean', '00:02:54', '0880918035222');
+
+INSERT INTO SONG
+VALUES ('Unclean Mind', '00:03:51', '0880918035222');
+
+INSERT INTO SONG
+VALUES ('Ode to the blue', '00:02:53', '0880918035222');
+
+INSERT INTO COPY
+VALUES ('22', '0880918035222', 'MP3', 'B1', NULL, NULL);
+
+/* MUSICAL ABLUM - An Overview on Phenomenal Nature */
+
+INSERT INTO PERSON
+VALUES ('Cassandra Jenkins', '1984', '35');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('35', 'https://open.spotify.com/artist/1WVGbBnzZ5WLZ2PfesIHik','https://music.apple.com/us/artist/cassandra-jenkins/628623818');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('An Overview on Phenomenal Nature', '192641041556', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:31:44', 'Ba Da Bing!', 'Pop', '35','192641041556');
+
+INSERT INTO SONG
+VALUES ('Michelangelo', '00:03:29', '192641041556');
+
+INSERT INTO SONG
+VALUES ('New Bikini', '00:04:22', '192641041556');
+
+INSERT INTO SONG
+VALUES ('Hard Drive', '00:05:27', '192641041556');
+
+INSERT INTO COPY
+VALUES ('23', '192641041556', 'MP3', 'B2', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('231', '192641041556', 'MP3', 'B1', '9', '2021-12-03');
+
+/* MUSIC ALBUM - DISCO! */ 	/*5054283379136 */
+
+INSERT INTO PERSON
+VALUES ('Mike', '1998', '36');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('36', 'https://open.spotify.com/artist/1wlzPS1hSNrkriIIwLFTmU','https://music.apple.com/us/artist/mike/1253023714');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Disco!','5054283379136', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:43:21', '10K', 'Rap','36','5054283379136');
+
+INSERT INTO SONG
+VALUES ('Evil Eye', '00:02:08', '5054283379136');
+
+INSERT INTO SONG
+VALUES ('Center City', '00:01:50', '5054283379136');
+
+INSERT INTO SONG
+VALUES ('Big Love', '00:03:34', '5054283379136');
+
+INSERT INTO COPY
+VALUES ('24', '5054283379136', 'MP3', 'C1', NULL, NULL);
+
+/* MUSICAL ALBUM - WHOLE LOTTA RED */ 
+
+INSERT INTO PERSON
+VALUES ('Playboi Carti', '1996-09-13', '37');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('37', 'https://open.spotify.com/artist/699OTQXzgjhIYAHMy9RyPD','https://music.apple.com/us/artist/playboi-carti/982372505');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Whole Lotta Red','602435693064', '2020');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('01:03:00', 'Interscope', 'Rap','37','602435693064');
+
+INSERT INTO SONG
+VALUES ('Rockstar Made', '00:03:13', '602435693064');
+
+INSERT INTO SONG
+VALUES ('Beno!', '00:02:33', '602435693064');
+
+INSERT INTO SONG
+VALUES ('Meh', '00:01:58', '602435693064');
+
+INSERT INTO COPY
+VALUES ('25', '602435693064', 'MP3', 'B2', '31', '2022-10-19');
+
+INSERT INTO COPY
+VALUES ('26', '602435693064', 'MP3', 'B2', '25', '2022-10-19');
+
+/* MUSICAL ALBUM - IGNORANCE */
+
+INSERT INTO PERSON
+VALUES ('The Weather Station', '1984-11-02', '38');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('38', 'https://open.spotify.com/artist/39ZEMGRv3pIYTYKEhr4Abu','https://music.apple.com/us/artist/the-weather-station/313107696');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Ignorance','0623339911108', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:40:48', 'Fat Possum Records', 'Pop', '38','0623339911108');
+
+INSERT INTO SONG
+VALUES ('Robber', '00:05:20', '0623339911108');
+
+INSERT INTO SONG
+VALUES ('Atlantic', '00:03:53', '0623339911108');
+
+INSERT INTO SONG
+VALUES ('Loss', '00:03:36', '0623339911108');
+
+INSERT INTO COPY
+VALUES ('27', '0623339911108', 'MP3', 'B3', NULL, NULL);
+
+/* MUSICAL ALBUM - GLOW ON */
+
+INSERT INTO PERSON
+VALUES ('Turnstile', '2010', '39');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('39', 'https://open.spotify.com/artist/2qnpHrOzdmOo1S4ox3j17x','https://music.apple.com/us/artist/turnstile/4472006');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Glow On','016861744205', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:34:57', 'Roadrunner Records Inc.', 'Pop', '39','016861744205');
+
+INSERT INTO SONG
+VALUES ('Mystery', '00:02:35', '016861744205');
+
+INSERT INTO SONG
+VALUES ('Blackout', '00:02:53', '016861744205');
+
+INSERT INTO SONG
+VALUES ('Holiday', '00:02:52', '016861744205');
+
+INSERT INTO COPY
+VALUES ('28', '016861744205', 'MP3', 'B2', NULL, NULL);
+
+/* MUSICAL ALBUM - HEY WHAT */ 
+
+INSERT INTO PERSON
+VALUES ('Low', '1993', '40');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('40', 'https://open.spotify.com/artist/0wz0jO9anccPzH04N7FLBH','https://music.apple.com/us/artist/low/4055318');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Hey What','098787143560', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:46:12', 'Sup Pop Records', 'Pop', '40','098787143560');
+
+INSERT INTO SONG
+VALUES ('Hey', '00:07:41', '098787143560');
+
+INSERT INTO SONG
+VALUES ('Disappearing', '00:03:32', '098787143560');
+
+INSERT INTO SONG
+VALUES ('More', '00:02:10', '098787143560');
+
+INSERT INTO COPY
+VALUES ('29', '098787143560', 'MP3', 'B1', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('291', '098787143560', 'MP3', 'B1', '25', '2022-11-30');
+
+/* MUSICAL ALBUM - FATIGUE */
+
+INSERT INTO PERSON
+VALUES ('L''Rain', NULL, '41');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('41', 'https://open.spotify.com/artist/5L4EafeXwZ0stGuPtGr5Tz','https://music.apple.com/us/artist/rain/415442801');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Fatigue','184923130966', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:29:54', 'Mexican Summer LLC', 'Pop', '41','184923130966');
+
+INSERT INTO SONG
+VALUES ('Find It', '00:06:17', '184923130966');
+
+INSERT INTO SONG
+VALUES ('Fly, Die', '00:02:00', '184923130966');
+
+INSERT INTO SONG
+VALUES ('Love Her', '00:00:17', '184923130966');
+
+INSERT INTO COPY
+VALUES ('30', '184923130966', 'MP3', 'B2', NULL, NULL);
+
+/* MUSICAL ALBUM - HEAUX TALES */
+
+INSERT INTO PERSON
+VALUES ('Jazmine Sullivan', '1987-04-09', '42');
+
+INSERT INTO PERSON
+VALUES ('Lydia Copeland', '1997-05-05', '43');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('42', 'https://open.spotify.com/artist/7gSjFKpVmDgC2MMsnN8CYq','https://music.apple.com/us/artist/jazmine-sullivan/27880734');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('Ap #112-7514 Aliquam Road', 'pellentesque.massa@google.org', 0, '43');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Heaux Tales','886448960133', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:32:21', 'RCA Records', 'Pop', '42','886448960133');
+
+INSERT INTO SONG
+VALUES ('On It', '00:03:25', '886448960133');
+
+INSERT INTO SONG
+VALUES ('Lost One', '00:02:58', '886448960133');
+
+INSERT INTO SONG
+VALUES ('Put It Down', '00:03:21', '886448960133');
+
+INSERT INTO COPY
+VALUES ('31', '886448960133', 'MP3', 'B1', '43', '2022-11-30');
+
+INSERT INTO COPY
+VALUES ('32', '886448960133', 'MP3', 'B1', NULL, NULL);
+
+/* MUSICAL ALBUM - SOUR */
+
+INSERT INTO PERSON
+VALUES ('Olivia Rodrigo', '2003-02-20', '44');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('44', 'https://open.spotify.com/artist/1McMsnEElThX1knmY4oliG','https://music.apple.com/us/artist/olivia-rodrigo/979458609');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Sour','050087467227', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:34:46', 'Geffen Records', 'Pop', '44','050087467227');
+
+INSERT INTO SONG
+VALUES ('happier', '00:02:55', '050087467227');
+
+INSERT INTO SONG
+VALUES ('drivers license', '00:04:02', '050087467227');
+
+INSERT INTO SONG
+VALUES ('deja vu', '00:03:35', '050087467227');
+
+INSERT INTO COPY
+VALUES ('33', '050087467227', 'MP3', 'C1', '9', '2020-11-8');
+
+INSERT INTO COPY
+VALUES ('34', '050087467227', 'MP3', 'C1', NULL, NULL);
+
+/* MUSICAL ALBUM - CAVALCADE */
+
+INSERT INTO PERSON
+VALUES ('Black Midi', '2017', '45');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('45', 'https://open.spotify.com/artist/7Hvq85OU8T7Hsd63zNBwaL','https://music.apple.com/us/artist/black-midi/1265994913');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Cavalcade','5059638356084', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:42:24', 'Rough Trade Records', 'Rock', '45','5059638356084');
+
+INSERT INTO SONG
+VALUES ('John L', '00:05:13', '5059638356084');
+
+INSERT INTO SONG
+VALUES ('Slow', '00:05:37', '5059638356084');
+
+INSERT INTO SONG
+VALUES ('Dethroned', '00:05:02', '5059638356084');
+
+INSERT INTO COPY
+VALUES ('35', '5059638356084', 'MP3', 'B2', NULL, NULL);
+
+/* MUSICAL ALBUM - 30 */
+
+INSERT INTO PERSON
+VALUES ('Adele', '1988-05-05', '46');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('46', 'https://open.spotify.com/artist/4dpARuHxo51G3z768sgnrY','https://music.apple.com/us/artist/adele/262836961');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('30','886449750832', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:58:18', 'Columbia Records', 'Pop', '46','886449750832');
+
+INSERT INTO SONG
+VALUES ('Oh My God', '00:03:45', '886449750832');
+
+INSERT INTO SONG
+VALUES ('I Drink Wine', '00:06:16', '886449750832');
+
+INSERT INTO SONG
+VALUES ('Hold On', '00:06:06', '886449750832');
+
+INSERT INTO COPY
+VALUES ('36', '886449750832', 'MP3', 'B1', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('37', '886449750832', 'MP3', 'B1', NULL, NULL);
+
+/* MUSICAL ALBUM - REFLECTION */
+
+INSERT INTO PERSON
+VALUES ('Loraine James', NULL, '47');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('47', 'https://open.spotify.com/artist/536qHynzDH1QviwhWY9dE3','https://music.apple.com/us/artist/loraine-james/1368596163');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Refelction','5055869592666', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:45:39', 'HyperDub', 'Pop', '47','5055869592666');
+
+INSERT INTO SONG
+VALUES ('Change', '00:07:12', '5055869592666');
+
+INSERT INTO SONG
+VALUES ('Let''s Go', '00:03:40', '5055869592666');
+
+INSERT INTO SONG
+VALUES ('Built to Last', '00:02:17', '5055869592666');
+
+INSERT INTO COPY
+VALUES ('38', '5055869592666', 'MP3', 'B2', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('39', '5055869592666', 'MP3', 'C1', NULL, NULL);
+
+/* MUSICAL ALBUM - SENSATIONAL */
+
+INSERT INTO PERSON
+VALUES ('Erika de Casier', '1990-03-21', '48');
+
+INSERT INTO MUSICAL_ARTIST
+VALUES ('48', 'https://open.spotify.com/artist/1nIJEqPyIj5qutlgWNmQB0','https://music.apple.com/us/artist/erika-de-casier/1280654807');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Sensational','5059638340588', '2021');
+
+INSERT INTO MUSICAL_ALBUM
+VALUES ('00:41:40', '4AD', 'Pop', '48','5059638340588');
+
+INSERT INTO SONG
+VALUES ('Drama', '00:03:48', '5059638340588');
+
+INSERT INTO SONG
+VALUES ('Polite', '00:03:24', '5059638340588');
+
+INSERT INTO SONG
+VALUES ('Friendly', '00:03:00', '5059638340588');
+
+INSERT INTO COPY
+VALUES ('40', '5059638340588', 'MP3', 'B1', NULL, NULL);
+
+/* MOVIE - SPIDER-MAN: NO WAY HOME */
+
+INSERT INTO PERSON
+VALUES ('Tom Holland', '1996-06-01', '49');
+
+INSERT INTO PERSON
+VALUES ('Zendaya', '1996-09-01', '50');
+
+INSERT INTO PERSON
+VALUES ('Benedict Cumberbatch', '1976-07-19', '51');
+
+INSERT INTO ACTOR 
+VALUES ('49', 'https://www.imdb.com/name/nm4043618/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR 
+VALUES ('50', 'https://www.imdb.com/name/nm3918035/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR 
+VALUES ('51', 'https://www.imdb.com/name/nm1212722/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/78AB-C20D-C214-A5B3-734D-8', '49', 'Peter Parker');
+
+INSERT INTO CAST
+VALUES ('10.5240/78AB-C20D-C214-A5B3-734D-8', '50', 'MJ');
+
+INSERT INTO CAST
+VALUES ('10.5240/78AB-C20D-C214-A5B3-734D-8', '51', 'Doctor Strange');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Spider-Man: No Way Home', '10.5240/78AB-C20D-C214-A5B3-734D-8', '2021');
+
+INSERT INTO MOVIE
+VALUES ('02:28:00', 'Marvel Studios', 'Action', 'PG-13', '10.5240/78AB-C20D-C214-A5B3-734D-8');
+
+INSERT INTO COPY
+VALUES ('41', '10.5240/78AB-C20D-C214-A5B3-734D-8', 'MP4', 'B1', NULL, NULL);
+
+/* MOVIE - THE BATMAN */
+
+INSERT INTO PERSON
+VALUES ('Robert Pattinson', '1986-05-13', '52');
+
+INSERT INTO PERSON
+VALUES ('Zoe Kravitz', '1988-12-01', '53');
+
+INSERT INTO PERSON
+VALUES ('Jeffrey Wright', '1965-12-07', '54');
+
+INSERT INTO ACTOR
+VALUES ('52', 'https://www.imdb.com/name/nm1500155/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR
+VALUES ('53', 'https://www.imdb.com/name/nm2368789/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR
+VALUES ('54', 'https://www.imdb.com/name/nm0942482/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/31F1-0197-6949-90DE-F6F0-5', '52', 'Bruce Wayne');
+
+INSERT INTO CAST
+VALUES ('10.5240/31F1-0197-6949-90DE-F6F0-5', '53', 'Selina Kyle');
+
+INSERT INTO CAST
+VALUES ('10.5240/31F1-0197-6949-90DE-F6F0-5', '54', 'LT. James Gordon');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Batman', '10.5240/31F1-0197-6949-90DE-F6F0-5', '2022');
+
+INSERT INTO MOVIE
+VALUES ('02:56:00', 'DC Films', 'Action', 'PG-13', '10.5240/31F1-0197-6949-90DE-F6F0-5');
+
+INSERT INTO COPY
+VALUES ('42', '10.5240/31F1-0197-6949-90DE-F6F0-5', 'MP4', 'B2', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('421', '10.5240/31F1-0197-6949-90DE-F6F0-5', 'MP4', 'B1', '33', '2021-12-09');
+
+/* MOVIE - UNCHARTED */
+
+INSERT INTO PERSON
+VALUES ('Mark Wahlberg', '1971-06-05', '55');
+
+INSERT INTO PERSON
+VALUES ('Antonio Banderas', '1960-08-10', '56');
+
+INSERT INTO ACTOR
+VALUES ('55', 'https://www.imdb.com/name/nm0000242/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR
+VALUES ('56', 'https://www.imdb.com/name/nm0000104/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/A19F-E12B-9D25-6549-63FF-H', '49', 'Nathan Drake');
+
+INSERT INTO CAST
+VALUES ('10.5240/A19F-E12B-9D25-6549-63FF-H', '55', 'Victor Sullivan');
+
+INSERT INTO CAST
+VALUES ('10.5240/A19F-E12B-9D25-6549-63FF-H', '56', 'Santiago Moncada');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Uncharted', '10.5240/A19F-E12B-9D25-6549-63FF-H', '2022');
+
+INSERT INTO MOVIE
+VALUES ('01:56:00', 'Sony Interactive Entertainment', 'Adventure', 'PG-13', '10.5240/A19F-E12B-9D25-6549-63FF-H');
+
+INSERT INTO COPY
+VALUES ('43', '10.5240/A19F-E12B-9D25-6549-63FF-H', 'MP4', 'B1', NULL, NULL);
+
+/* MOVIE - THE OUTFIT */
+
+INSERT INTO PERSON
+VALUES ('Mark Rylance', '1960-01-18', '57');
+
+INSERT INTO PERSON
+VALUES ('Zoey Deutch', '1994-11-10', '58');
+
+INSERT INTO PERSON
+VALUES ('Dylan O''Brien', '1991-08-26', '59');
+
+INSERT INTO PERSON
+VALUES ('William Whitfiel', '1984-06-27', '60');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('Ap #903-2840 Vitae, Av.', 'vestibulum.mauris@protonmail.edu', 0, '60');
+
+INSERT INTO ACTOR
+VALUES ('57', 'https://www.imdb.com/name/nm0753314/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR
+VALUES ('58', 'https://www.imdb.com/name/nm3614913/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR
+VALUES ('59', 'https://www.imdb.com/name/nm3729721/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/6BAB-326A-C649-4A90-AC3F-1', '57', 'Leonard');
+
+INSERT INTO CAST
+VALUES ('10.5240/6BAB-326A-C649-4A90-AC3F-1', '58', 'Mable');
+
+INSERT INTO CAST
+VALUES ('10.5240/6BAB-326A-C649-4A90-AC3F-1', '59', 'Richie');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('The Outfit', '10.5240/6BAB-326A-C649-4A90-AC3F-1', '2022');
+
+INSERT INTO MOVIE
+VALUES ('01:45:00', 'NBC Universal', 'Crime', 'R', '10.5240/6BAB-326A-C649-4A90-AC3F-1');
+
+INSERT INTO COPY
+VALUES ('44', '10.5240/6BAB-326A-C649-4A90-AC3F-1', 'CD', 'C1', '60', '2022-03-08');
+
+INSERT INTO COPY
+VALUES ('45', '10.5240/6BAB-326A-C649-4A90-AC3F-1', 'CD', 'C1', '31', '2022-03-18');
+
+/* MOVIE - DEEP WATER */
+
+INSERT INTO PERSON
+VALUES ('Ben Affleck', '1972-08-15', '61');
+
+INSERT INTO PERSON
+VALUES ('Ana de Armas', '1988-04-30', '62');
+
+INSERT INTO PERSON
+VALUES ('Tracy Letts', '1965-07-04', '63');
+
+INSERT INTO ACTOR
+VALUES ('61', 'https://www.imdb.com/name/nm0000255/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR
+VALUES ('62', 'https://www.imdb.com/name/nm1869101/?ref_=tt_ov_st');
+
+INSERT INTO ACTOR
+VALUES ('63', 'https://www.imdb.com/name/nm0504832/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/722C-FD22-0E63-868E-5035-0', '61', 'Vic');
+
+INSERT INTO CAST
+VALUES ('10.5240/722C-FD22-0E63-868E-5035-0', '62', 'Melinda');
+
+INSERT INTO CAST
+VALUES ('10.5240/722C-FD22-0E63-868E-5035-0', '63', 'Don Wilson');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Deep Water', '10.5240/722C-FD22-0E63-868E-5035-0', '2022');
+
+INSERT INTO MOVIE
+VALUES ('01:55:00', 'Walt Disney Studios', 'Mystery', 'R', '10.5240/722C-FD22-0E63-868E-5035-0');
+
+INSERT INTO COPY
+VALUES ('46', '10.5240/722C-FD22-0E63-868E-5035-0', 'MP4', 'B1', NULL, NULL);
+
+/* MOVIE - WEST SIDE STORY */
+
+INSERT INTO PERSON
+VALUES ('Ansel Elgort', '1994-03-14', '64');
+
+INSERT INTO ACTOR
+VALUES ('64', 'https://www.imdb.com/name/nm5052065/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/06C4-44EA-B835-28C7-361A-C', '64', 'Tony');
+
+INSERT INTO PERSON
+VALUES ('Rachel Zegler', '2001-05-03', '65');
+
+INSERT INTO ACTOR
+VALUES ('65', 'https://www.imdb.com/name/nm10399505/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/06C4-44EA-B835-28C7-361A-C', '65', 'Maria');
+
+INSERT INTO PERSON
+VALUES ('Ariana DeBose', '1991-01-25', '66');
+
+INSERT INTO ACTOR
+VALUES ('66', 'https://www.imdb.com/name/nm3663196/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/06C4-44EA-B835-28C7-361A-C', '66', 'Anita');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('West Side Story', '10.5240/06C4-44EA-B835-28C7-361A-C', '2021');
+
+INSERT INTO MOVIE
+VALUES ('02:36:00', 'Twentieth Century Fox', 'Crime', 'PG-13', '10.5240/06C4-44EA-B835-28C7-361A-C');
+
+INSERT INTO COPY
+VALUES ('47', '10.5240/06C4-44EA-B835-28C7-361A-C', 'MP4', 'C2', '43', '2021-04-30');
+
+/* MOVIE - FRESH */
+
+INSERT INTO PERSON
+VALUES ('Daisy Edgar-Jones', '1998-05-24', '67');
+
+INSERT INTO ACTOR
+VALUES ('67', 'https://www.imdb.com/name/nm8402992/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/9DA6-F836-6CEC-1017-27FC-V', '67', 'Noa');
+
+INSERT INTO PERSON
+VALUES ('Sebastian Stan', '1982-08-13', '68');
+
+INSERT INTO ACTOR
+VALUES ('68', 'https://www.imdb.com/name/nm1659221/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/9DA6-F836-6CEC-1017-27FC-V', '68', 'Steve');
+
+INSERT INTO PERSON
+VALUES ('Jojo T. Gibbs', NULL, '69');
+
+INSERT INTO ACTOR
+VALUES ('69', 'https://www.imdb.com/name/nm6851510/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/9DA6-F836-6CEC-1017-27FC-V', '69', 'Mollie');
+
+INSERT INTO PERSON
+VALUES ('Colt Nash', '1988-04-14', '70');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('Ap #924-5940 Pharetra. St.', 'lorem@hotmail.edu', 0, '70');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Fresh', '10.5240/9DA6-F836-6CEC-1017-27FC-V', '2022');
+
+INSERT INTO MOVIE
+VALUES ('01:54:00', 'Legendary Entertainments', 'Horror', 'R', '10.5240/9DA6-F836-6CEC-1017-27FC-V');
+
+INSERT INTO COPY
+VALUES ('48', '10.5240/9DA6-F836-6CEC-1017-27FC-V', 'MP4', 'B1', '70', '2022-09-17');
+
+/* MOVIE - DUNE */
+
+INSERT INTO PERSON
+VALUES ('Rebecca Ferguson', '1983-10-19', '71');
+
+INSERT INTO ACTOR
+VALUES ('71', 'https://www.imdb.com/name/nm0272581/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/D15F-5FCE-B8D0-FA2B-EF6A-D', '71', 'Lady Jessica Atreides');
+
+INSERT INTO PERSON
+VALUES ('Timothee Chalamet', '1995-12-27', '72');
+
+INSERT INTO ACTOR
+VALUES ('72', 'https://www.imdb.com/name/nm3154303/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/D15F-5FCE-B8D0-FA2B-EF6A-D', '72', 'Paul Atreides');
+
+INSERT INTO CAST
+VALUES ('10.5240/D15F-5FCE-B8D0-FA2B-EF6A-D', '50', 'Chani');
+
+INSERT INTO PERSON
+VALUES ('Adele Roman', '1984-10-08', '73');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('Ap #590-2417 Egestas. Rd.', 'ornare@aol.com', 0, '73');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Dune', '10.5240/D15F-5FCE-B8D0-FA2B-EF6A-D', '2021');
+
+INSERT INTO MOVIE
+VALUES ('02:35:00', 'Legendary Entertainment', 'Adventure', 'PG-13', '10.5240/D15F-5FCE-B8D0-FA2B-EF6A-D');
+
+INSERT INTO COPY
+VALUES ('49', '10.5240/D15F-5FCE-B8D0-FA2B-EF6A-D', 'MP4', 'B2', '73', '2022-12-19');
+
+/* MOVIE - DOG */
+
+INSERT INTO PERSON
+VALUES ('Channing Tatum', '1980-04-26', '74');
+
+INSERT INTO ACTOR
+VALUES ('74', 'https://www.imdb.com/name/nm1475594/?ref_=tt_cl_t_1');
+
+INSERT INTO CAST
+VALUES ('10.5240/7B12-6B4D-2D6C-FD8A-0B11-C', '74', 'Jackson Briggs');
+
+INSERT INTO PERSON
+VALUES ('Ryder McLaughlin', NULL, '75');
+
+INSERT INTO ACTOR
+VALUES ('75', 'https://www.imdb.com/name/nm9208180?ref_=tt_cl_t_2');
+
+INSERT INTO CAST
+VALUES ('10.5240/7B12-6B4D-2D6C-FD8A-0B11-C', '75', 'Deli Teenager');
+
+INSERT INTO PERSON
+VALUES ('Aavi Haas', NULL, '76');
+
+INSERT INTO ACTOR
+VALUES ('76', 'https://www.imdb.com/name/nm3590810?ref_=tt_cl_t_3');
+
+INSERT INTO CAST
+VALUES ('10.5240/7B12-6B4D-2D6C-FD8A-0B11-C', '76', 'Deli Manager');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Dog', '10.5240/7B12-6B4D-2D6C-FD8A-0B11-C', '2022');
+
+INSERT INTO MOVIE
+VALUES ('01:41:00', 'FilmNation Entertainment', 'Comedy', 'PG-13', '10.5240/7B12-6B4D-2D6C-FD8A-0B11-C');
+
+INSERT INTO COPY
+VALUES ('50', '10.5240/7B12-6B4D-2D6C-FD8A-0B11-C', 'MP4', 'B2', NULL, NULL);
+
+/* MOVIE - SCREAM */
+
+INSERT INTO PERSON
+VALUES ('Neve Campbell', '1973-10-03', '77');
+
+INSERT INTO ACTOR
+VALUES ('77', 'https://www.imdb.com/name/nm0000117/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/169D-2CAE-B05C-47D2-1782-R', '77', 'Sidney Prescott');
+
+INSERT INTO PERSON
+VALUES ('Courteney Cox', '1964-06-15', '78');
+
+INSERT INTO ACTOR
+VALUES ('78', 'https://www.imdb.com/name/nm0001073/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/169D-2CAE-B05C-47D2-1782-R', '78', 'Gale Weathers');
+
+INSERT INTO PERSON
+VALUES ('David Arquette', '1971-09-08', '79');
+
+INSERT INTO ACTOR
+VALUES ('79', 'https://www.imdb.com/name/nm0000274/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/169D-2CAE-B05C-47D2-1782-R', '79', 'Dewey Riley');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Scream', '10.5240/169D-2CAE-B05C-47D2-1782-R', '2022');
+
+INSERT INTO MOVIE
+VALUES ('01:54:00', 'Spyglass Media Group', 'Horror', 'R', '10.5240/169D-2CAE-B05C-47D2-1782-R');
+
+INSERT INTO COPY
+VALUES ('51', '10.5240/169D-2CAE-B05C-47D2-1782-R', 'MP4', 'B1', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('52', '10.5240/169D-2CAE-B05C-47D2-1782-R', 'MP4', 'B1', NULL, NULL);
+
+/* MOVIE - FREE GUY */
+
+INSERT INTO PERSON
+VALUES ('Ryan Renolds', '1976-10-23', '80');
+
+INSERT INTO ACTOR
+VALUES ('80', 'https://www.imdb.com/name/nm0005351/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/8E36-D2D4-4EA9-12F2-C76B-5', '80', 'Guy');
+
+INSERT INTO PERSON
+VALUES ('Jodie Comer', '1993-03-11', '81');
+
+INSERT INTO ACTOR
+VALUES ('81', 'https://www.imdb.com/name/nm3069650/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/8E36-D2D4-4EA9-12F2-C76B-5', '81', 'Millie');
+
+INSERT INTO PERSON
+VALUES ('Taika Waititi', '1975-08-16', '82');
+
+INSERT INTO ACTOR
+VALUES ('82', 'https://www.imdb.com/name/nm0169806/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/8E36-D2D4-4EA9-12F2-C76B-5', '82', 'Antwan');
+
+INSERT INTO PERSON
+VALUES ('Willow Crane', '1984-11-17', '83');
+
+INSERT INTO LIBRARY_PATRON
+VALUES ('P.O. Box 903, 4309 Ut Rd.', 'montes.nascetur@protonmail.couk', 0, '83');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Free Guy', '10.5240/8E36-D2D4-4EA9-12F2-C76B-5', '2021');
+
+INSERT INTO MOVIE
+VALUES ('01:55:00', 'Walt Disney Studios', 'Comedy', 'PG-13', '10.5240/8E36-D2D4-4EA9-12F2-C76B-5');
+
+INSERT INTO COPY
+VALUES ('53', '10.5240/8E36-D2D4-4EA9-12F2-C76B-5', 'CD', 'B2', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('54', '10.5240/8E36-D2D4-4EA9-12F2-C76B-5', 'CD', 'B1', '83', '2022-09-17');
+
+/* MOVIE - BELFAST */
+
+INSERT INTO PERSON
+VALUES ('Jude Hill', NULL, '84');
+
+INSERT INTO ACTOR
+VALUES ('84', 'https://www.imdb.com/name/nm11879379/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/F648-3C8B-458E-824C-956D-N', '84', 'Buddy');
+
+INSERT INTO PERSON
+VALUES ('Lewis McAskie', NULL, '85');
+
+INSERT INTO ACTOR
+VALUES ('85', 'https://www.imdb.com/name/nm11888099/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/F648-3C8B-458E-824C-956D-N', '85', 'Will');
+
+INSERT INTO PERSON
+VALUES ('Caitriona Balfe', '1979-10-04', '86');
+
+INSERT INTO ACTOR
+VALUES ('86', 'https://www.imdb.com/name/nm1495520/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/F648-3C8B-458E-824C-956D-N', '86', 'Ma');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Belfast', '10.5240/F648-3C8B-458E-824C-956D-N', '2021');
+
+INSERT INTO MOVIE
+VALUES ('01:38:00', 'Universal Pictures', 'Drama', 'PG-13', '10.5240/F648-3C8B-458E-824C-956D-N');
+ 
+INSERT INTO COPY
+VALUES ('55', '10.5240/F648-3C8B-458E-824C-956D-N', 'MP4', 'B2', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('56', '10.5240/F648-3C8B-458E-824C-956D-N', 'MP4', 'B2', NULL, NULL);
+
+/* MOVIE - CODA */
+
+INSERT INTO PERSON
+VALUES ('Emilia Jones', '2002-02-23', '87');
+
+INSERT INTO ACTOR
+VALUES ('87', 'https://www.imdb.com/name/nm4454223/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/A708-4620-738A-2514-AF6A-3', '87', 'Ruby Rossi');
+
+INSERT INTO PERSON
+VALUES ('Marlee Martin', '1965-08-24', '88');
+
+INSERT INTO ACTOR
+VALUES ('88', 'https://www.imdb.com/name/nm0559144/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/A708-4620-738A-2514-AF6A-3', '88', 'Jackie Rossi');
+
+INSERT INTO PERSON
+VALUES ('Troy Kotsur', '1968-07-24', '89');
+
+INSERT INTO ACTOR
+VALUES ('89', 'https://www.imdb.com/name/nm1319274/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/A708-4620-738A-2514-AF6A-3', '89', 'Frank Rossi');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('CODA', '10.5240/A708-4620-738A-2514-AF6A-3', '2021');
+
+INSERT INTO MOVIE
+VALUES ('01:51:00', 'Vendome Films', 'Comedy', 'PG-13', '10.5240/A708-4620-738A-2514-AF6A-3');
+ 
+INSERT INTO COPY
+VALUES ('57', '10.5240/A708-4620-738A-2514-AF6A-3', 'CD', 'B2', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('58', '10.5240/A708-4620-738A-2514-AF6A-3', 'CD', 'B2', NULL, NULL);
+
+/* MOVIE - */
+
+INSERT INTO PERSON
+VALUES ('Gemma Chan', '1982-11-29', '90');
+
+INSERT INTO ACTOR
+VALUES ('90', 'https://www.imdb.com/name/nm2110418/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/EE6B-F6C2-7393-8A48-20CF-7', '90', 'Sersi');
+
+INSERT INTO PERSON
+VALUES ('Richard Madden', '1986-06-18', '91');
+
+INSERT INTO ACTOR
+VALUES ('91', 'https://www.imdb.com/name/nm0534635/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/EE6B-F6C2-7393-8A48-20CF-7', '91', 'Ikaris');
+
+INSERT INTO PERSON
+VALUES ('Angelina Jolie', '1975-06-04', '92');
+
+INSERT INTO ACTOR
+VALUES ('92', 'https://www.imdb.com/name/nm0001401/?ref_=tt_ov_st');
+
+INSERT INTO CAST
+VALUES ('10.5240/EE6B-F6C2-7393-8A48-20CF-7', '92', 'Thena');
+
+INSERT INTO MEDIA_ITEM
+VALUES ('Eternals', '10.5240/EE6B-F6C2-7393-8A48-20CF-7', '2021');
+
+INSERT INTO MOVIE
+VALUES ('02:36:00', 'Marvel Studios', 'Adventure', 'PG-13', '10.5240/EE6B-F6C2-7393-8A48-20CF-7');
+ 
+INSERT INTO COPY
+VALUES ('59', '10.5240/EE6B-F6C2-7393-8A48-20CF-7', 'CD', 'B1', NULL, NULL);
+
+INSERT INTO COPY
+VALUES ('60', '10.5240/EE6B-F6C2-7393-8A48-20CF-7', 'CD', 'B2', NULL, NULL);

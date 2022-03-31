@@ -30,7 +30,6 @@ public class DBUtils {
 		// Provides some positive assurance the connection and/or creation was
 		// successful.
 		DatabaseMetaData meta = conn.getMetaData();
-		System.out.println("The driver name is " + meta.getDriverName());
 		System.out.println("The connection to the database was successful.");
 	    } else {
 		// Provides some feedback in case the connection failed but did not throw an

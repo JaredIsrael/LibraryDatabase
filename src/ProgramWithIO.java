@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.Connection;
 
 /**
  * Put a short phrase describing the program here.
@@ -10,7 +11,7 @@ import java.io.InputStreamReader;
  */
 public final class ProgramWithIO {
 
-    private static String DATABASE = "CP3.db";
+    private static String DATABASE = "LibraryDB.db";
 
     private static String sqlStatement = "SELECT * FROM PERSON;";
 
@@ -28,6 +29,7 @@ public final class ProgramWithIO {
     public static void main(String[] args) {
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 	ItemsData itemsData = new ItemsData();
+	Connection conn = DBUtils.initializeConnection(DATABASE);
 
 	String nextLine = "";
 
