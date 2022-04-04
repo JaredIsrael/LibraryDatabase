@@ -16,6 +16,8 @@ public final class ProgramWithIO {
     private ProgramWithIO() {
     }
 
+    private static String DATABASE = "LibraryDB.db";
+
     /**
      * Main method.
      *
