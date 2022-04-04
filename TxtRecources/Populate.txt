@@ -1,6 +1,3 @@
-/*RUN BEFORE INSERTION*/
-PRAGMA foreign_keys = 0;
-
 /* AUDIOBOOK - TO KILL A MOCKINGBIRD */
 
 INSERT INTO PERSON
@@ -393,7 +390,7 @@ INSERT INTO COPY
 VALUES ('20', '9781982153250', 'Paperback', 'B2', '31', '2021-03-15');
 
 INSERT INTO BOOK_CHAPTER
-VALUES ('The world's worst police detective', '1', '00:36:45', '9781982153250');
+VALUES ('The world''s worst police detective', '1', '00:36:45', '9781982153250');
 
 INSERT INTO BOOK_CHAPTER
 VALUES ('Twenty-eight words in three days', '3', '00:45:36', '9781982153250');
