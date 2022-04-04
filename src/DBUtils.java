@@ -66,6 +66,15 @@ public class DBUtils {
 	return rs;
     }
 
+    public static void updateQueryConnection(Connection conn, PreparedStatement ps) {
+	try {
+	    ps.execute();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+    }
+
     public static void printResultSet(ResultSet rs) {
 	try {
 	    ResultSetMetaData rsmd = rs.getMetaData();
