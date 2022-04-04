@@ -3,7 +3,6 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
 
 public class ItemsData {
     public ArrayList<MediaItem> items;
@@ -245,31 +244,3 @@ public class ItemsData {
     }
 
 }
-
-// class AlphabeticalComp implements Comparator<MediaItem> {
-//     @Override
-//     public int compare(MediaItem a, MediaItem b) {
-// 	return a.title.compareToIgnoreCase(b.title);
-//     }
-// }
-
-// class ReverseAlphabeticalComp implements Comparator<MediaItem> {
-//     @Override
-//     public int compare(MediaItem a, MediaItem b) {
-// 	return b.title.compareToIgnoreCase(a.title);
-//     }
-// }
-
-// class PubDateComp implements Comparator<MediaItem> {
-//     @Override
-//     public int compare(MediaItem a, MediaItem b) {
-// 	return b.pubDate.compareTo(a.pubDate);
-//     }
-// }
-
-// class ReversePubDateComp implements Comparator<MediaItem> {
-//     @Override
-//     public int compare(MediaItem a, MediaItem b) {
-// 	return a.pubDate.compareTo(b.pubDate);
-//     }
-// }

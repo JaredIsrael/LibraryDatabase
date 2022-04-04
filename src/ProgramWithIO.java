@@ -10,11 +10,6 @@ import java.sql.Connection;
  *
  */
 public final class ProgramWithIO {
-
-    private static String DATABASE = "LibraryDB.db";
-
-    private static String sqlStatement = "SELECT * FROM PERSON;";
-
     /**
      * Private constructor so this utility class cannot be instantiated.
      */
@@ -47,16 +42,16 @@ public final class ProgramWithIO {
 	    nextLine = nextLine.toLowerCase(); // sanitzing
 	    switch (nextLine) {
 	    case "add":
-		itemsData.AddItem(reader);
+		InputManager.addItem(reader, conn);
 		break;
 	    case "edit":
-		itemsData.EditItem(reader);
+		// Edit item here
 		break;
 	    case "search":
-		itemsData.SearchItems(reader);
+		// Search for items here
 		break;
 	    case "order":
-		itemsData.OrderItems(reader);
+		// Order items here
 		break;
 	    case "end":
 		System.out.println("Closing program");
