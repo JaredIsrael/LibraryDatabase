@@ -2,6 +2,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.sql.Connection;
+import java.sql.SQLException;
 
 /**
  * Put a short phrase describing the program here.
@@ -74,7 +75,12 @@ public final class ProgramWithIO {
 	    e.printStackTrace();
 	}
 
-	// CLOSE CONNECTION
+	try {
+	    conn.close();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 
     }
 }
