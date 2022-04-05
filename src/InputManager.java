@@ -9,7 +9,11 @@ public class InputManager {
 
     // Order: Title, doi/eidr, pub date
     private static String insertMediaItem = "INSERT INTO MEDIA_ITEM VALUES (?, ?, ?);";
-    private static String findPerson = "SELECT library_id FROM PERSON WHERE name = ?";
+    // Order: Name, DOB, library_id
+    private static String insertPerson = "INSERT INTO PERSON VALUES (?,?,?);";
+    // Order: Name
+    private static String findPerson = "SELECT library_id FROM PERSON WHERE name = ?;";
+    private static String nextUniqueId = "SELECT MAX(library_id) AS max FROM PERSON;";
 
     public static void addItem(BufferedReader reader, Connection conn) {
 	String nextLine = "";
@@ -72,11 +76,45 @@ public class InputManager {
 	}
 
 	DBUtils.updateQueryConnection(conn, ps);
+	try {
+	    ps.close();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
 	return doi;
     }
 
-    public static String readOrAddPerson(BufferedReader reader, Connection conn) {
-	String id = "";
+    public static int getNextLibraryId(Connection conn) {
+	int nextId = 0;
+	PreparedStatement ps = null;
+	try {
+	    ps = conn.prepareStatement(nextUniqueId);
+	} catch (SQLException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+
+	ResultSet rs = DBUtils.queryConnection(conn, ps);
+
+	try {
+	    if (rs.next()) {
+		System.out.println("DEBUG: Get next library id next passed");
+		nextId = rs.getInt("max");
+	    }
+	    ps.close();
+
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+
+	nextId++;
+	System.out.println("NEXT ID IS: " + nextId);
+	return nextId;
+    }
+
+    public static int readOrAddPerson(BufferedReader reader, Connection conn) {
 	String name = readLine(reader);
 
 	PreparedStatement ps = null;
@@ -92,16 +130,32 @@ public class InputManager {
 
 	try {
 	    if (rs.next()) {
-		return rs.getString("library_id");
+		System.out.println("DEBUG: Person recognized");
+		return rs.getInt("library_id");
 	    }
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
+	// PERSON MUST BE ADDED
+	System.out.println("DEBUG: Person not recognized, adding new one");
+	System.out.println("Enter birthday if applicable (YYYY-MM-DD): ");
+	String dob = readLine(reader);
+	int nextId = getNextLibraryId(conn);
 
-	// Person does not exist, add here
-
-	return id;
+	PreparedStatement insert;
+	try {
+	    insert = conn.prepareStatement(insertPerson);
+	    insert.setString(1, name);
+	    insert.setString(2, dob);
+	    insert.setInt(3, nextId);
+	    DBUtils.updateQueryConnection(conn, insert);
+	    ps.close();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	return nextId;
     }
 
     public static void addMusicalAlbum(BufferedReader reader, Connection conn) {
@@ -111,7 +165,7 @@ public class InputManager {
 	String doi = addMediaItem(reader, conn);
 
 	System.out.println("Enter artist name: ");
-	String artistId = readOrAddPerson(reader, conn);
+	int artistId = readOrAddPerson(reader, conn);
 
     }
 
