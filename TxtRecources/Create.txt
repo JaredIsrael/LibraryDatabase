@@ -8,7 +8,7 @@ PRIMARY KEY(doi_eidr)
 CREATE TABLE PERSON(
 name VARCHAR(50) NOT NULL,
 dob DATE,
-library_id VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
 PRIMARY KEY(library_id)
 );
 
@@ -16,27 +16,27 @@ CREATE TABLE LIBRARY_PATRON(
 address VARCHAR(300),
 email VARCHAR(100) NOT NULL,
 access_credientials BIT NOT NULL DEFAULT 0,
-library_id VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
 PRIMARY KEY(library_id),
 FOREIGN KEY(library_id) REFERENCES PERSON(library_id)
 );
 
 CREATE TABLE ACTOR(
-library_id VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
 imdb_url VARCHAR(200),
 PRIMARY KEY(library_id),
 FOREIGN KEY(library_id) REFERENCES PERSON(library_id)
 );
 
 CREATE TABLE AUTHOR(
-library_id VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
 goodreads_url VARCHAR(200),
 PRIMARY KEY(library_id),
 FOREIGN KEY(library_id) REFERENCES PERSON(library_id)
 );
 
 CREATE TABLE MUSICAL_ARTIST(
-library_id VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
 spotify_url VARCHAR(200),
 applemusic_url VARCHAR(200),
 PRIMARY KEY(library_id),
@@ -57,7 +57,7 @@ CREATE TABLE MUSICAL_ALBUM(
 runtime TIME NOT NULL,
 record_label VARCHAR(100),
 genre VARCHAR(50),
-library_id VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
 doi_eidr VARCHAR(50) NOT NULL,
 PRIMARY KEY(doi_eidr),
 FOREIGN KEY(doi_eidr) REFERENCES MEDIA_ITEM(doi_eidr),
@@ -67,8 +67,8 @@ FOREIGN KEY(library_id) REFERENCES MUSICAL_ARTIST(library_id)
 CREATE TABLE AUDIOBOOK(
 length TIME NOT NULL,
 genre VARCHAR(50),
-author_library_id VARCHAR(50) NOT NULL,
-narrator_library_id VARCHAR(50),
+author_library_id INTEGER NOT NULL,
+narrator_library_id INTEGER,
 doi_eidr VARCHAR(50) NOT NULL,
 PRIMARY KEY(doi_eidr),
 FOREIGN KEY(doi_eidr) REFERENCES MEDIA_ITEM(doi_eidr),
@@ -81,7 +81,7 @@ inventory_number VARCHAR(50) NOT NULL,
 doi_eidr VARCHAR(50) NOT NULL,
 format VARCHAR(50) NOT NULL,
 location VARCHAR(50),
-patron_id VARCHAR(50),
+patron_id INTEGER,
 checkout_date DATE,
 PRIMARY KEY(inventory_number),
 FOREIGN KEY(doi_eidr) REFERENCES MEDIA_ITEM(doi_eidr),
@@ -100,7 +100,7 @@ FOREIGN KEY(doi_eidr) REFERENCES MEDIA_ITEM(doi_eidr)
 
 CREATE TABLE CAST(
 doi_eidr VARCHAR(50) NOT NULL,
-library_id VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
 role VARCHAR(100),
 PRIMARY KEY(doi_eidr, library_id)
 FOREIGN KEY(doi_eidr) REFERENCES MOVIE(doi_eidr),
@@ -119,7 +119,7 @@ CREATE TABLE FEATURED_ARTIST(
 name VARCHAR(100) NOT NULL,
 runtime TIME NOT NULL,
 doi_eidr VARCHAR(50) NOT NULL,
-library_id VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
 PRIMARY KEY(name,runtime,doi_eidr,library_id)
 FOREIGN KEY(name, runtime, doi_eidr) REFERENCES SONG(name, runtime, doi_eidr)
 FOREIGN KEY(library_id) REFERENCES MUSICAL_ARTIST(library_id)

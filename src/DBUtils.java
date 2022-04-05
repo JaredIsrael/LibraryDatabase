@@ -5,7 +5,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class DBUtils {
     /**
@@ -43,18 +42,6 @@ public class DBUtils {
 	return conn;
     }
 
-    public static ResultSet queryConnection(Connection conn, String sql) {
-	ResultSet rs = null;
-	try {
-	    Statement stmt = conn.createStatement();
-	    rs = stmt.executeQuery(sql);
-
-	} catch (SQLException e) {
-	    System.out.println(e.getMessage());
-	}
-	return rs;
-    }
-
     public static ResultSet queryConnection(Connection conn, PreparedStatement ps) {
 	ResultSet rs = null;
 	try {
@@ -68,7 +55,7 @@ public class DBUtils {
 
     public static void updateQueryConnection(Connection conn, PreparedStatement ps) {
 	try {
-	    ps.execute();
+	    ps.executeUpdate();
 	} catch (SQLException e) {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
