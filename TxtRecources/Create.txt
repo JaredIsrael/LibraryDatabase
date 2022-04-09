@@ -17,6 +17,7 @@ address VARCHAR(300),
 email VARCHAR(100) NOT NULL,
 access_credientials BIT NOT NULL DEFAULT 0,
 library_id INTEGER NOT NULL,
+active BIT NOT NULL DEFAULT 1,
 PRIMARY KEY(library_id),
 FOREIGN KEY(library_id) REFERENCES PERSON(library_id)
 );
@@ -132,4 +133,14 @@ length TIME NOT NULL,
 doi_eidr VARCHAR(50) NOT NULL,
 PRIMARY KEY(chapter_index, doi_eidr),
 FOREIGN KEY(doi_eidr) REFERENCES AUDIOBOOK(doi_eidr)
+);
+
+CREATE TABLE RETURN(
+inventory_number VARCHAR(50) NOT NULL,
+library_id INTEGER NOT NULL,
+checkout_date DATE NOT NULL,
+return_date DATE NOT NULL,
+PRIMARY KEY(inventory_number,library_id,checkout_date),
+FOREIGN KEY(inventory_number) REFERENCES COPY(inventory_number),
+FOREIGN KEY(library_id) REFERENCES LIBRARY_PATRON(library_id)
 );

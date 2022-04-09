@@ -90,6 +90,7 @@ public class InputManager {
 	PreparedStatement ps = null;
 	try {
 	    ps = conn.prepareStatement(nextUniqueId);
+
 	} catch (SQLException e1) {
 	    // TODO Auto-generated catch block
 	    e1.printStackTrace();
@@ -99,9 +100,9 @@ public class InputManager {
 
 	try {
 	    if (rs.next()) {
-		System.out.println("DEBUG: Get next library id next passed");
 		nextId = rs.getInt("max");
 	    }
+	    rs.close();
 	    ps.close();
 
 	} catch (SQLException e) {
@@ -110,7 +111,6 @@ public class InputManager {
 	}
 
 	nextId++;
-	System.out.println("NEXT ID IS: " + nextId);
 	return nextId;
     }
 
@@ -130,7 +130,6 @@ public class InputManager {
 
 	try {
 	    if (rs.next()) {
-		System.out.println("DEBUG: Person recognized");
 		return rs.getInt("library_id");
 	    }
 	} catch (SQLException e) {
@@ -138,7 +137,6 @@ public class InputManager {
 	    e.printStackTrace();
 	}
 	// PERSON MUST BE ADDED
-	System.out.println("DEBUG: Person not recognized, adding new one");
 	System.out.println("Enter birthday if applicable (YYYY-MM-DD): ");
 	String dob = readLine(reader);
 	int nextId = getNextLibraryId(conn);

@@ -1,3 +1,6 @@
+/*RUN BEFORE INSERTION*/
+PRAGMA foreign_keys = 0;
+
 /* AUDIOBOOK - TO KILL A MOCKINGBIRD */
 
 INSERT INTO PERSON
@@ -101,7 +104,7 @@ INSERT INTO PERSON
 VALUES('Jared Israel', '2001-11-02', '9');
 
 INSERT INTO LIBRARY_PATRON
-VALUES('305 E 16th Ave', 'israel.93@osu.edu',0, '9');
+VALUES('305 E 16th Ave', 'israel.93@osu.edu',0, '9',1);
 
 INSERT INTO COPY
 VALUES('5','9780141023380', 'CD', 'B3', '9', '2022-03-21');
@@ -262,7 +265,7 @@ INSERT INTO AUTHOR
 VALUES ('21', 'https://www.audible.com/search?searchNarrator=Caroline+Lee');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('Ap #471-3873 Mauris. St.', 'dictum.cursus.nunc@icloud.couk', 0, '22');
+VALUES ('Ap #471-3873 Mauris. St.', 'dictum.cursus.nunc@icloud.couk', 0, '22',1);
 
 INSERT INTO MEDIA_ITEM
 VALUES ('Apples Never Fall','9781250220257', '2021-09-14');
@@ -294,7 +297,7 @@ INSERT INTO AUTHOR
 VALUES ('24', 'https://www.goodreads.com/author/show/18968822.Tamaryn_Payne');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('P.O. Box 869, 5617 Aliquet St.', 'felis.eget.varius@yahoo.ca', 0, '25');
+VALUES ('P.O. Box 869, 5617 Aliquet St.', 'felis.eget.varius@yahoo.ca', 0, '25',1);
 
 INSERT INTO MEDIA_ITEM
 VALUES ('The Club','9780062997425', '2022-03-01');
@@ -375,7 +378,7 @@ INSERT INTO AUTHOR
 VALUES ('30', 'https://www.goodreads.com/author/show/13558500.Karen_Cass');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('5500 Fringilla St.', 'metus.urna@hotmail.org', 0, '31');
+VALUES ('5500 Fringilla St.', 'metus.urna@hotmail.org', 0, '31',1);
 
 INSERT INTO MEDIA_ITEM
 VALUES ('The Whispers','9781982153250', '2022-03-08');
@@ -407,7 +410,7 @@ INSERT INTO MUSICAL_ARTIST
 VALUES ('32', 'https://open.spotify.com/artist/3ZMur3elMyOs248ah86NRk','https://music.apple.com/us/artist/mach-hommy/768292263');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('Ap #490-6544 Natoque Ave', 'justo.nec@outlook.org', 0, '33');
+VALUES ('Ap #490-6544 Natoque Ave', 'justo.nec@outlook.org', 0, '33',1);
 
 INSERT INTO MEDIA_ITEM
 VALUES ('Pray For Haiti', '194690528033', '2021');
@@ -671,7 +674,7 @@ INSERT INTO MUSICAL_ARTIST
 VALUES ('42', 'https://open.spotify.com/artist/7gSjFKpVmDgC2MMsnN8CYq','https://music.apple.com/us/artist/jazmine-sullivan/27880734');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('Ap #112-7514 Aliquam Road', 'pellentesque.massa@google.org', 0, '43');
+VALUES ('Ap #112-7514 Aliquam Road', 'pellentesque.massa@google.org', 0, '43',1);
 
 INSERT INTO MEDIA_ITEM
 VALUES ('Heaux Tales','886448960133', '2021');
@@ -959,7 +962,7 @@ INSERT INTO PERSON
 VALUES ('William Whitfiel', '1984-06-27', '60');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('Ap #903-2840 Vitae, Av.', 'vestibulum.mauris@protonmail.edu', 0, '60');
+VALUES ('Ap #903-2840 Vitae, Av.', 'vestibulum.mauris@protonmail.edu', 0, '60',1);
 
 INSERT INTO ACTOR
 VALUES ('57', 'https://www.imdb.com/name/nm0753314/?ref_=tt_ov_st');
@@ -1100,7 +1103,7 @@ INSERT INTO PERSON
 VALUES ('Colt Nash', '1988-04-14', '70');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('Ap #924-5940 Pharetra. St.', 'lorem@hotmail.edu', 0, '70');
+VALUES ('Ap #924-5940 Pharetra. St.', 'lorem@hotmail.edu', 0, '70',1);
 
 INSERT INTO MEDIA_ITEM
 VALUES ('Fresh', '10.5240/9DA6-F836-6CEC-1017-27FC-V', '2022');
@@ -1138,7 +1141,7 @@ INSERT INTO PERSON
 VALUES ('Adele Roman', '1984-10-08', '73');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('Ap #590-2417 Egestas. Rd.', 'ornare@aol.com', 0, '73');
+VALUES ('Ap #590-2417 Egestas. Rd.', 'ornare@aol.com', 0, '73',1);
 
 INSERT INTO MEDIA_ITEM
 VALUES ('Dune', '10.5240/D15F-5FCE-B8D0-FA2B-EF6A-D', '2021');
@@ -1261,7 +1264,7 @@ INSERT INTO PERSON
 VALUES ('Willow Crane', '1984-11-17', '83');
 
 INSERT INTO LIBRARY_PATRON
-VALUES ('P.O. Box 903, 4309 Ut Rd.', 'montes.nascetur@protonmail.couk', 0, '83');
+VALUES ('P.O. Box 903, 4309 Ut Rd.', 'montes.nascetur@protonmail.couk', 0, '83',1);
 
 INSERT INTO MEDIA_ITEM
 VALUES ('Free Guy', '10.5240/8E36-D2D4-4EA9-12F2-C76B-5', '2021');
