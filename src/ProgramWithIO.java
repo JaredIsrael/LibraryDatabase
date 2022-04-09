@@ -10,12 +10,10 @@ import java.sql.SQLException;
  * @author Jared Israel
  *
  */
-public final class ProgramWithIO {
+public class ProgramWithIO {
     /**
      * Private constructor so this utility class cannot be instantiated.
      */
-    private ProgramWithIO() {
-    }
 
     private static String DATABASE = "LibraryDB.db";
     // Branch test 2
@@ -27,9 +25,8 @@ public final class ProgramWithIO {
      */
     public static void main(String[] args) {
 	BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-	ItemsData itemsData = new ItemsData();
+//	ItemsData itemsData = new ItemsData();
 	Connection conn = DBUtils.initializeConnection(DATABASE);
-
 	String nextLine = "";
 
 	do {
@@ -52,7 +49,7 @@ public final class ProgramWithIO {
 		// Edit item here
 		break;
 	    case "search":
-		// Search for items here
+		OutputManager.readItem(reader,conn);
 		break;
 	    case "order":
 		// Order items here
