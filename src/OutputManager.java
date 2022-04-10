@@ -18,8 +18,7 @@ public class OutputManager {
 
 		do {
 		    // Print prompt
-			System.out.println("Would you like to search for a 'Artist', 'Actor', 'Author', 'Album', 'Audiobook', 'Movie', or 'Music Track'?"
-					+ " Enter 'More' for more options.");
+			System.out.println("Would you like to search for a 'Artist', 'Actor', 'Author', 'Album', 'Audiobook', 'Movie', 'Music Track', or 'Checkouts'?");
 			
 		    // Try read next line
 		    try {
@@ -55,8 +54,10 @@ public class OutputManager {
 			// Order items here
 				searchMusictrack(reader, conn);
 			break;
-		    case "more":
+			
+		    case "checkouts":
 			// Order items here
+				searchCheckout(reader, conn);
 			break;
 		    default:
 			System.out.println("Input not recognized.");
@@ -82,12 +83,31 @@ public class OutputManager {
 
 	    }
 
-	
-	static void searchArtist(BufferedReader reader,Connection conn) {
+
+
+	private static void searchCheckout(BufferedReader reader, Connection conn) {
+		System.out.println("Would you like to search by patron_id?");
+		String nextLine = "";
+		try {
+			nextLine = reader.readLine();
+			nextLine = nextLine.toLowerCase();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-		System.out.println("What is the artist libray_id?");
-		
-    	String sqlStatement1 = "SELECT * FROM MUSICAL_ARTIST WHERE library_id = ?;";
+    	String sqlStatement1 = "";
+    	
+    	switch(nextLine) {
+    	case "patron_id":
+    		// this took me way longer then it should have
+    		sqlStatement1 = "SELECT * FROM (SELECT * FROM COPY LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = COPY.doi_eidr) WHERE patron_id = ? ";
+    		System.out.println("What is the patron_id?");
+    		break;
+	    default:
+		System.out.println("Input not recognized.");
+		break;
+    	}
     	String x = "";
     	PreparedStatement ps = null;
         	try {
@@ -98,7 +118,83 @@ public class OutputManager {
 					e.printStackTrace();
 				}
 				ps = conn.prepareStatement(sqlStatement1);
-				ps.setInt(1,Integer.parseInt(x));
+				if(nextLine.equals("email")){
+					ps.setString(1,x);
+				}else {
+					ps.setInt(1,Integer.parseInt(x));
+				}
+
+				ResultSet myRs= ps.executeQuery(); 
+				
+				boolean empty = true;
+				
+	            while (myRs.next()) {
+	            	empty = false;
+	                String date = myRs.getString("checkout_date");
+	                String doi_id = myRs.getString("doi_eidr");
+	                String title = myRs.getString("title");
+	                
+	                System.out.println();
+	                System.out.println("title: " + title);
+	                System.out.println("date: " + date);
+	                System.out.println("doi_eidr: " + doi_id);
+	                System.out.println();
+	            }
+	            if(empty) {
+	            	System.out.println("Artist not found");
+	            }
+	            
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	}
+
+
+
+	static void searchArtist(BufferedReader reader,Connection conn) {
+		
+		System.out.println("Would you like to search for an Artist by 'name' or 'library_id'?");
+		String nextLine = "";
+		try {
+			nextLine = reader.readLine();
+			nextLine = nextLine.toLowerCase();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+    	String sqlStatement1 = "";
+    	
+    	switch(nextLine) {
+    	case "name":
+    		sqlStatement1 = "SELECT * FROM (SELECT * FROM FEATURED_ARTIST, MUSICAL_ARTIST WHERE FEATURED_ARTIST.library_id = MUSICAL_ARTIST.library_id AND FEATURED_ARTIST.name = ?)";
+    		System.out.println("What is the name?");
+    		break;
+    	case "library_id":
+    		sqlStatement1 = "SELECT * FROM MUSICAL_ARTIST WHERE library_id = ?";
+    		System.out.println("What is the library_id");
+    		break;
+	    default:
+		System.out.println("Input not recognized.");
+		break;
+    	}
+    	String x = "";
+    	PreparedStatement ps = null;
+        	try {
+        		try {
+					x = reader.readLine();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				ps = conn.prepareStatement(sqlStatement1);
+				if(nextLine.equals("name")){
+					ps.setString(1,x);
+				}else {
+					ps.setInt(1,Integer.parseInt(x));
+				}
+
 				ResultSet myRs= ps.executeQuery(); 
 				
 				boolean empty = true;
@@ -125,10 +221,36 @@ public class OutputManager {
 			}
 
 	}
+	
 	static void searchActor(BufferedReader reader,Connection conn) {
-		System.out.println("What is the actor libray_id?");
 		
-    	String sqlStatement1 = "SELECT * FROM ACTOR WHERE library_id = ?;";
+		System.out.println("Would you like to search for an Actor by 'name' or 'library_id'?");
+		String nextLine = "";
+		try {
+			nextLine = reader.readLine();
+			nextLine = nextLine.toLowerCase();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+    	String sqlStatement1 = "";
+    	
+    	switch(nextLine) {
+    	case "name":
+    		sqlStatement1 = "SELECT * FROM (SELECT * FROM PERSON, ACTOR WHERE ACTOR.library_id = PERSON.library_id AND PERSON.name = ?)";
+    		System.out.println("What is the name?");
+    		break;
+    	case "library_id":
+    		sqlStatement1 = "SELECT * FROM ACTOR WHERE library_id = ?";
+    		System.out.println("What is the library_id");
+    		break;
+	    default:
+		System.out.println("Input not recognized.");
+		break;
+    	}
+		
+		
     	String x = "";
     	PreparedStatement ps = null;
         	try {
@@ -139,7 +261,12 @@ public class OutputManager {
 					e.printStackTrace();
 				}
 				ps = conn.prepareStatement(sqlStatement1);
-				ps.setInt(1,Integer.parseInt(x));
+				if(nextLine.equals("name")){
+					ps.setString(1,x);
+				}else {
+					ps.setInt(1,Integer.parseInt(x));
+				}
+				
 				ResultSet myRs= ps.executeQuery(); 
 				
 				boolean empty = true;
@@ -154,19 +281,44 @@ public class OutputManager {
 	                System.out.println();
 	            }
 	            if(empty) {
-	            	System.out.println("Actor not found");
+	            	System.out.println("Artist not found");
 	            }
 	            
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+
 	}
+	            
 	static void searchAuthor(BufferedReader reader,Connection conn) {
 		
-		System.out.println("What is the author libray_id?");
+		System.out.println("Would you like to search for an Author by 'name' or 'library_id'?");
+		String nextLine = "";
+		try {
+			nextLine = reader.readLine();
+			nextLine = nextLine.toLowerCase();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
-    	String sqlStatement1 = "SELECT * FROM AUTHOR WHERE library_id = ?;";
+    	String sqlStatement1 = "";
+    	
+    	switch(nextLine) {
+    	case "name":
+    		sqlStatement1 = "SELECT * FROM (SELECT * FROM PERSON, AUTHOR WHERE AUTHOR.library_id = PERSON.library_id AND PERSON.name = ?)";
+    		System.out.println("What is the name?");
+    		break;
+    	case "library_id":
+    		sqlStatement1 = "SELECT * FROM AUTHOR WHERE library_id = ?";
+    		System.out.println("What is the library_id");
+    		break;
+	    default:
+		System.out.println("Input not recognized.");
+		break;
+    	}
+		
     	String x = "";
     	PreparedStatement ps = null;
         	try {
@@ -177,7 +329,11 @@ public class OutputManager {
 					e.printStackTrace();
 				}
 				ps = conn.prepareStatement(sqlStatement1);
-				ps.setInt(1,Integer.parseInt(x));
+				if(nextLine.equals("name")){
+					ps.setString(1,x);
+				}else {
+					ps.setInt(1,Integer.parseInt(x));
+				}
 				ResultSet myRs= ps.executeQuery(); 
 				
 				boolean empty = true;
