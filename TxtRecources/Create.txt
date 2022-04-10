@@ -48,7 +48,7 @@ CREATE TABLE MOVIE(
 runtime TIME NOT NULL,
 publisher VARCHAR(100),
 genre VARCHAR(50),
-imdb_rating FLOAT,
+rating VARCHAR(50),
 doi_eidr VARCHAR(50) NOT NULL,
 PRIMARY KEY(doi_eidr),
 FOREIGN KEY(doi_eidr) REFERENCES MEDIA_ITEM(doi_eidr)
