@@ -252,6 +252,7 @@ public class InputManager {
 				LocalDate dateObj = LocalDate.now();
 		        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		        String date = dateObj.format(formatter);
+				
 		        upStmt.setString(1, user_id);
 		        upStmt.setString(2, date);
 				upStmt.setString(3, check_inv);
