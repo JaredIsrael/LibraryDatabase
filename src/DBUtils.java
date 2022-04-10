@@ -57,7 +57,11 @@ public class DBUtils {
 	try {
 	    ps.executeUpdate();
 	} catch (SQLException e) {
-	    // TODO Auto-generated catch block
+	    try {
+		conn.rollback();
+	    } catch (SQLException e1) {
+		e1.printStackTrace();
+	    }
 	    e.printStackTrace();
 	}
     }
