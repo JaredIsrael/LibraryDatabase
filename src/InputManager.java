@@ -11,13 +11,14 @@ import java.util.Map;
 
 public class InputManager {
 
+    // Order: inventory_number
+    private static String deleteCopy = "DELETE FROM COPY WHERE inventory_number=?;";
     // Order: Title, doi/eidr, pub date
     private static String insertMediaItem = "INSERT INTO MEDIA_ITEM VALUES (?, ?, ?);";
     // Order: Name, DOB, library_id
     private static String insertPerson = "INSERT INTO PERSON VALUES (?,?,?);";
     // Order: Name
     private static String findPerson = "SELECT library_id FROM PERSON WHERE name = ?;";
-
     // Order: runtime, publisher, genre, rating, doi
     private static String insertMovie = "INSERT INTO MOVIE VALUES(?,?,?,?,?)";
     // Order: library id, imdb url
@@ -32,13 +33,13 @@ public class InputManager {
     private static String insertAudiobook = "INSERT INTO AUDIOBOOK VALUES(?,?,?,?,?)";
     // Order: name, chapter_index, length, doi_eidr
     private static String insertChapter = "INSERT INTO BOOK_CHAPTER VALUES(?,?,?,?)";
-
     // Order: library id
     private static String findActor = "SELECT * FROM ACTOR AS A WHERE A.library_id=?";
     // Order: library id
     private static String findMusicalArtist = "SELECT* FROM MUSICAL_ARTIST AS M WHERE M.library_id=?;";
     // Order: Name, runtime, doi
     private static String insertSong = "INSERT INTO SONG VALUES(?,?,?);";
+
     private static String nextUniqueId = "SELECT MAX(library_id) AS max FROM PERSON;";
     private static String checkoutInventory = "select mi.title, mi.doi_eidr, cp.doi_eidr, cp.patron_id, cp.checkout_date, cp.inventory_number from copy as cp, media_item as mi where mi.doi_eidr = cp.doi_eidr;";
     private static String findPersonName = "select ps.library_id, ps.name, lp.library_id from person as ps, library_patron as lp where ps.library_id = lp.library_id;";
@@ -649,6 +650,23 @@ public class InputManager {
 	}
 
 	return input;
+    }
+
+    public static void deleteEntry(BufferedReader reader, Connection conn) {
+	System.out.println("Enter the inventory number of the lost item to be deleted: ");
+	String invNo = readLine(reader);
+
+	try {
+	    PreparedStatement ps = conn.prepareStatement(deleteCopy);
+	    ps.setString(1, invNo);
+	    DBUtils.updateQueryConnection(conn, ps);
+	    ps.close();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	System.out.println("Any copy with inventory number " + invNo + " was deleted");
+
     }
 
 }
