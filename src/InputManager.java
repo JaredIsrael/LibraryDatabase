@@ -44,6 +44,10 @@ public class InputManager {
     private static String checkoutInventory = "select mi.title, mi.doi_eidr, cp.doi_eidr, cp.patron_id, cp.checkout_date, cp.inventory_number from copy as cp, media_item as mi where mi.doi_eidr = cp.doi_eidr;";
     private static String findPersonName = "select ps.library_id, ps.name, lp.library_id from person as ps, library_patron as lp where ps.library_id = lp.library_id;";
     private static String checkoutConfirm = "update copy set patron_id = ?, checkout_date = ? where inventory_number = ?;";
+    
+    private static String findPersonCheckouts = "SELECT * FROM (SELECT * FROM COPY LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = COPY.doi_eidr) WHERE patron_id = ?;";
+    private static String returnConfirm = "update copy set patron_id = ?, checkout_date = ? where inventory_number = ?;";
+    private static String returnReport = "insert into return values (?,?,?,?);";
 
     public static void addItem(BufferedReader reader, Connection conn) {
 	String nextLine = "";
@@ -520,8 +524,8 @@ public class InputManager {
 	Map<String, String> people = new HashMap<String, String>();
 
 	PreparedStatement stmt = null;
-	PreparedStatement stmt2 = null;
 	ResultSet rs = null;
+	PreparedStatement stmt2 = null;
 	ResultSet rs2 = null;
 
 	try {
@@ -577,7 +581,7 @@ public class InputManager {
 	    }
 	    System.out.println("Please enter the inventory number of the item to checkout");
 	    String check_inv = readLine(reader);
-	    PreparedStatement upStmt;
+	    PreparedStatement upStmt = null;
 	    try {
 		upStmt = conn.prepareStatement(checkoutConfirm);
 
@@ -595,6 +599,9 @@ public class InputManager {
 	    }
 	    System.out.println("Your checkout is processed!\nYour item is due within the next 30 days!");
 	    try {
+	    upStmt.close();
+	    stmt.close();
+	    stmt2.close();
 		rs.close();
 		rs2.close();
 	    } catch (SQLException e) {
@@ -605,6 +612,119 @@ public class InputManager {
 	} else {
 	    System.out.println("The given libray ID is incorrect or not in our system");
 	}
+    }
+    
+    public static void addReturnItem(BufferedReader reader, Connection conn) {
+    	Map<String, String[]> inventory = new HashMap<String, String[]>();
+    	Map<String, String> people = new HashMap<String, String>();
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	PreparedStatement stmt2 = null;
+    	ResultSet rs2 = null;
+    	
+    	try {
+    	    stmt2 = conn.prepareStatement(findPersonName);
+    	    rs2 = DBUtils.queryConnection(conn, stmt2);
+    	    while (rs2.next()) {
+    		String id = rs2.getString("library_id");
+    		String name = rs2.getString("name");
+    		people.put(id, name);
+    	    }
+    	} catch (SQLException e) {
+    	    e.printStackTrace();
+    	}
+
+    	System.out.println("Enter your library id: ");
+    	String user_id = readLine(reader);
+    	int[] arr = null;
+    	try {
+    	    arr = prettyPrintMap(conn);
+    	} catch (SQLException e1) {
+    	    // TODO Auto-generated catch block
+    	    e1.printStackTrace();
+    	}
+    	if (people.containsKey(user_id)) {
+    	    System.out.println("Hello " + people.get(user_id));
+    	    System.out.println();
+    	    try {
+    	    	arr[0] = "Inventory Number".length() + 1;
+    	    	stmt = conn.prepareStatement(findPersonCheckouts);
+    	    	stmt.setString(1, user_id);
+    	    	rs = DBUtils.queryConnection(conn, stmt);
+    	    	while (rs.next()) {
+    	    		String[] array = new String[4];
+    	    		array[0] = prettyPrintSizer(rs.getString("title"), arr[1]);
+    	    		array[1] = prettyPrintSizer(rs.getString("doi_eidr"), arr[2]);
+    	    		array[2] = rs.getString("patron_id");
+    	    		array[3] = rs.getString("checkout_date");
+    	    		inventory.put(prettyPrintSizer(rs.getString("inventory_number"), arr[0]), array);
+    	    	}
+    	    } catch (SQLException e) {
+    	    	e.printStackTrace();
+    	    }
+    	    
+    	    System.out.println("Here is a list of items avaiable for return:");
+    	    String str2 = prettyPrintSizer("Media Title", arr[1]);
+    	    String str3 = prettyPrintSizer("DOI/EIDR", arr[2]);
+    	    System.out.println("Inventory Number " + str2 + str3);
+    	    for (Map.Entry<String, String[]> entry : inventory.entrySet()) {
+    	    	String inv_num = entry.getKey();
+    	    	String[] list = entry.getValue();
+    	    	System.out.println(inv_num + list[0] + list[1]);
+    	    }
+    	    
+    	    System.out.println("Please enter the inventory number of the item to return");
+    	    String check_inv = readLine(reader);
+    	    PreparedStatement upStmt = null;
+    	    PreparedStatement retStmt = null;
+    	    try {
+    		upStmt = conn.prepareStatement(returnConfirm);
+    		retStmt = conn.prepareStatement(returnReport);
+    		conn.setAutoCommit(false);
+    		LocalDate dateObj = LocalDate.now();
+    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    		String date = dateObj.format(formatter);
+
+    		upStmt.setString(1, null);
+    		upStmt.setString(2, null);
+    		upStmt.setString(3, check_inv);
+    		
+    		
+    		retStmt.setString(1, check_inv);
+    		retStmt.setString(2, user_id);
+    		String temp = prettyPrintSizer(check_inv, "Inventory_Number".length() + 1);
+    		for (Map.Entry<String, String[]> entry : inventory.entrySet()) {
+    	    	String inv_num = entry.getKey();
+    	    	String[] list = entry.getValue();
+    	    	if (inv_num.equals(temp)) {
+    	    		retStmt.setString(3, list[3]);
+    	    	}
+    	    }
+    		
+    		retStmt.setString(4, date);
+    		DBUtils.updateQueryConnection(conn, retStmt);
+    		DBUtils.updateQueryConnection(conn, upStmt);
+    		conn.commit();
+    	    } catch (SQLException e) {
+    		// TODO Auto-generated catch block
+    		e.printStackTrace();
+    	    }
+    	    System.out.println("Your return is processed!");
+    	    try {
+				stmt.close();
+				stmt2.close();
+	    	    upStmt.close();
+	    	    retStmt.close();
+	    	    rs.close();
+	    	    rs2.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	    
+    	} else {
+    		System.out.println("The given libray ID is incorrect or not in our system");
+    	}
     }
 
     public static int[] prettyPrintMap(Connection conn) throws SQLException {
@@ -627,9 +747,17 @@ public class InputManager {
 	while (rs5.next()) {
 	    arr[2] = rs5.getInt("max_doi");
 	}
-	rs3.close();
-	rs4.close();
-	rs5.close();
+	try {
+		stmt3.close();
+		stmt4.close();
+		stmt5.close();
+		rs3.close();
+		rs4.close();
+		rs5.close();
+	} catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
 	return arr;
     }
 
