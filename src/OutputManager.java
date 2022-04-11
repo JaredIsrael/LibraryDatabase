@@ -18,7 +18,7 @@ public class OutputManager {
 
 		do {
 		    // Print prompt
-			System.out.println("Would you like to search for a 'Artist', 'Actor', 'Author', 'Album', 'Audiobook', 'Movie', 'Music Track', or 'Checkouts'?");
+			System.out.println("Would you like to search for a 'Artist', 'Actor', 'Author', 'Album', 'Audiobook', 'Movie', 'Music Track', 'Checkouts', or 'End'?");
 			
 		    // Try read next line
 		    try {
@@ -59,9 +59,12 @@ public class OutputManager {
 			// Order items here
 				searchCheckout(reader, conn);
 			break;
+		    case "end":
+		    	return;
 		    default:
 			System.out.println("Input not recognized.");
 			break;
+			
 		    }
 
 		} while (!nextLine.equals("end"));
@@ -86,15 +89,7 @@ public class OutputManager {
 
 
 	private static void searchCheckout(BufferedReader reader, Connection conn) {
-		System.out.println("Would you like to search by patron_id?");
-		String nextLine = "";
-		try {
-			nextLine = reader.readLine();
-			nextLine = nextLine.toLowerCase();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		String nextLine = "patron_id";
 		
     	String sqlStatement1 = "";
     	
