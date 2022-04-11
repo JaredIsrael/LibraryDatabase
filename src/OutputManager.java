@@ -196,11 +196,13 @@ public class OutputManager {
 				
 	            while (myRs.next()) {
 	            	empty = false;
+	                String name = myRs.getString("name");
 	                String lib_id = myRs.getString("library_id");
 	                String spot_url = myRs.getString("spotify_url");
 	                String app_url = myRs.getString("applemusic_url");
 	                
 	                System.out.println();
+	                System.out.println("name:  " + name);
 	                System.out.println("library id: " + lib_id);
 	                System.out.println("spotify url: " + spot_url);
 	                System.out.println("apple music url: " + app_url);
@@ -335,9 +337,11 @@ public class OutputManager {
 				
 	            while (myRs.next()) {
 	            	empty = false;
+	                String name = myRs.getString("name");
 	                String lib_id = myRs.getString("library_id");
 	                String reads_url = myRs.getString("goodreads_url");
 	                System.out.println();
+	                System.out.println("name: " + name);
 	                System.out.println("library id: " + lib_id);
 	                System.out.println("goodreads url: " + reads_url);
 	                System.out.println();
