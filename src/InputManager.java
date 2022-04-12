@@ -63,12 +63,26 @@ public class InputManager {
     private static String returnConfirm = "update copy set patron_id = ?, checkout_date = ? where inventory_number = ?;";
     private static String returnReport = "insert into return values (?,?,?,?);";
 
+	// Order: Address, email, Access_credentials, Library_id
+	private static String insertPatron = "INSERT INTO PATRON VALUES (?,?,?,?);";
+	//Delete patron
+	private static String deletePatron = "DELETE FROM PATRON WHERE library_id = ?;";
+	private static String mostMovies = "SELECT name, MAX(count) FROM (SELECT P.library_id,P.name, COUNT(*) as count"+
+		"FROM ((MOVIE AS M JOIN COPY AS C ON M.doi_eidr=C.doi_eidr)JOIN PERSON AS P ON P.library_id=C.patron_id) GROUP BY P.library_id);";
+	//Report: Checkouts of each type from user
+	private static String allCheckouts = "SELECT MEDIA_ITEM.title, COPY.format 	FROM COPY, MEDIA_ITEM, PERSON 	WHERE COPY.patron_id" 
+	+"= Person.library_id AND Person.name = ? AND MEDIA_ITEM.doi_eidr = COPY.doi_eidr;";
+	//Report: Tracks by artist
+	private static String tracksByArtist = "SELECT name FROM SONG, MUSICAL_ALBUM, PERSON WHERE SONG.doi_eidr = MUSICAL_ALBUM.doi_eidr" 
+	+ "and	MUSCIAL_ALBUM.library_id = Person.library_id AND Person.name = ?:";
+
+
     public static void addItem(BufferedReader reader, Connection conn) {
 	String nextLine = "";
 	boolean foundType = false;
 
 	do {
-	    System.out.println("What do you wish to add? Please respond with 'Musical album', 'Audio book' or 'Movie'");
+	    System.out.println("What do you wish to add? Please respond with 'Musical album', 'Audio book', 'Movie', or 'Patron'");
 
 	    try {
 		nextLine = reader.readLine();
@@ -91,6 +105,9 @@ public class InputManager {
 		addMovie(reader, conn);
 		foundType = true;
 		break;
+		case "patron":
+		addPatron(reader, conn);
+		break;
 	    default:
 		System.out.println("Input not recognized.");
 		break;
@@ -98,6 +115,104 @@ public class InputManager {
 	} while (!foundType);
 
     }
+
+	public static void deactiviateCard(BufferedReader reader, Connection conn)
+	{
+		System.out.println("Enter a patron's id #");
+		int libraryID = readLine(reader);
+		try
+		{
+		PreparedStatement ps = null;
+		ps = conn.prepareStatement(deactiviateCard);
+		ps.setInt(libraryID);
+		DBUtils.updateQueryConnection(reader, conn);
+		}
+		catch (Exception e)
+		{
+		e.printStackTrace();
+		}
+	}
+
+	public static void addPatron(BufferedReader reader, Connection conn)
+	{
+		PreparedStatement ps = null;
+		System.out.println("Enter a person's name");
+		int libraryID = readOrAddPerson(reader, conn);
+		System.out.println("Enter your address");
+		String address = readLine(reader);
+		System.out.println("Enter your email");
+		String email = readLine(reader);
+		try {
+			ps = conn.prepareStatement(insertPatron);
+			ps.setString(1, address);
+			ps.setString(2, email);
+			ps.setString(3, "0");
+			ps.setInt(4, libraryID);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		DBUtils.updateQueryConnection(conn, ps);
+		try {
+			ps.close();
+		} catch (Exception e) {
+			//TODO: handle exception
+			e.printStackTrace();
+		}
+
+	}
+
+	public static void Report(BufferedReader reader, Connection conn)
+	{
+	System.out.println("For a report on the patron with the most movies currently checked out, enter 1");
+	System.out.println("For a report on all items a patron has checked out, enter 2");
+	System.out.println("For a report of all songs by a particular artist, enter 3");
+	System.out.print("Which report do you wish to view: ");
+	String report = readLine(reader);
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+	if (report.equals("1"))
+	{
+		try {
+			ps = conn.prepareStatement(mostMovies);
+			rs = DBUtils.queryConnection(conn, ps);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	else if (report.equals("2"))
+	{
+		try {
+			ps = conn.prepareStatement(allCheckouts);
+			System.out.print("Enter the name of a patron: ");
+			String patronName = readLine(reader);
+			ps.setString(1, patronName);
+			rs = DBUtils.queryConnection(conn, ps);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	else if (report.equals("3"))
+	{
+		try {
+			ps = conn.prepareStatement(tracksByArtist);
+			System.out.print("Enter the name of the artist you're looking for: ");
+			String artistName = readLine(reader);
+			ps.setString(1, artistName);
+			rs = DBUtils.queryConnection(conn, ps);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	else 
+	{
+
+	}
+	DBUtils.printResultSet(rs);
+	}
 
     public static String addMediaItem(BufferedReader reader, Connection conn) {
 	String doi = "", title = "", pubdate = "";

@@ -32,7 +32,7 @@ public class ProgramWithIO {
 
 	do {
 	    // Print prompt
-	    System.out.println("Please enter 'Add', 'Edit', 'Search', 'Checkout', 'Return', 'Delete' or 'End'");
+	    System.out.println("Please enter 'Add', 'Edit', 'Search', 'Checkout', 'Return', 'Report, 'Delete' or 'End'");
 
 	    // Try read next line
 	    try {
@@ -58,6 +58,9 @@ public class ProgramWithIO {
 	    case "return":
 		// Return items here
 		InputManager.addReturnItem(reader, conn);
+		break;
+		case "report":
+		InputManager.Report(reader, conn);
 		break;
 	    case "delete":
 		InputManager.deleteEntry(reader, conn);
