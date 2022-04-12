@@ -32,7 +32,7 @@ public class ProgramWithIO {
 
 	do {
 	    // Print prompt
-	    System.out.println("Please enter 'Add', 'Edit', 'Search', 'Checkout', 'Return', 'Delete' or 'End'");
+	    System.out.println("Please enter 'Add', 'Edit', 'Search', 'Checkout', 'Return', 'Delete', 'Order', or 'End'");
 
 	    // Try read next line
 	    try {
@@ -61,6 +61,9 @@ public class ProgramWithIO {
 		break;
 	    case "delete":
 		InputManager.deleteEntry(reader, conn);
+		break;
+	    case "order":
+		InputManager.addOrder(reader,conn);
 		break;
 	    case "end":
 		System.out.println("Closing program");
