@@ -32,7 +32,7 @@ public class ProgramWithIO {
 
 	do {
 	    // Print prompt
-	    System.out.println("Please enter 'Add', 'Edit', 'Search', 'Order', 'Checkout', 'Return', 'Delete' or 'End'");
+	    System.out.println("Please enter 'Add', 'Edit', 'Search', 'Checkout', 'Return', 'Delete' or 'End'");
 
 	    // Try read next line
 	    try {
@@ -44,33 +44,30 @@ public class ProgramWithIO {
 	    nextLine = nextLine.toLowerCase(); // Sanitizing
 	    switch (nextLine) {
 	    case "add":
-	    	InputManager.addItem(reader, conn);
-	    	break;
+		InputManager.addItem(reader, conn);
+		break;
 	    case "edit":
-		// Edit item here
+		InputManager.editEntry(reader, conn);
 		break;
 	    case "search":
-	    	OutputManager.readItem(reader, conn);
-	    	break;
-	    case "order":
-		// Order items here
+		OutputManager.readItem(reader, conn);
 		break;
 	    case "checkout":
-	    	InputManager.addCheckoutItem(reader, conn);
-	    	break;
+		InputManager.addCheckoutItem(reader, conn);
+		break;
 	    case "return":
-	    	// Return items here
-	    	InputManager.addReturnItem(reader, conn);
-	    break;
+		// Return items here
+		InputManager.addReturnItem(reader, conn);
+		break;
 	    case "delete":
-	    	InputManager.deleteEntry(reader, conn);
-	    	break;
+		InputManager.deleteEntry(reader, conn);
+		break;
 	    case "end":
-	    	System.out.println("Closing program");
-	    	break;
+		System.out.println("Closing program");
+		break;
 	    default:
-	    	System.out.println("Input not recognized.");
-	    	break;
+		System.out.println("Input not recognized.");
+		break;
 	    }
 
 	} while (!nextLine.equals("end"));

@@ -40,11 +40,25 @@ public class InputManager {
     // Order: Name, runtime, doi
     private static String insertSong = "INSERT INTO SONG VALUES(?,?,?);";
 
+    private static String updateTitle = "UPDATE MEDIA_ITEM SET title=? WHERE doi_eidr=?;";
+    private static String updatePubDate = "UPDATE MEDIA_ITEM SET pub_date=? WHERE doi_eidr=?;";
+    private static String updateAudiobookLength = "UPDATE AUDIOBOOK SET length=? WHERE doi_eidr=?;";
+    private static String updateAudiobookGenre = "UPDATE AUDIOBOOK SET genre=? WHERE doi_eidr=?;";
+
+    private static String updateMovieRuntime = "UPDATE MOVIE SET runtime=? WHERE doi_eidr=?;";
+    private static String updateMoviePublisher = "UPDATE MOVIE SET publisher=? WHERE doi_eidr=?;";
+    private static String updateMovieGenre = "UPDATE MOVIE SET genre=? WHERE doi_eidr=?;";
+    private static String updateMovieRating = "UPDATE MOVIE SET rating=? WHERE doi_eidr=?;";
+
+    private static String updateAlbumRuntime = "UPDATE MUSICAL_ALBUM SET runtime=? WHERE doi_eidr=?;";
+    private static String updateAlbumLabel = "UPDATE MUSICAL_ALBUM SET record_label=? WHERE doi_eidr=?;";
+    private static String updateAlbumGenre = "UPDATE MUSICAL_ALBUM SET genre=? WHERE doi_eidr=?;";
+
     private static String nextUniqueId = "SELECT MAX(library_id) AS max FROM PERSON;";
     private static String checkoutInventory = "select mi.title, mi.doi_eidr, cp.doi_eidr, cp.patron_id, cp.checkout_date, cp.inventory_number from copy as cp, media_item as mi where mi.doi_eidr = cp.doi_eidr;";
     private static String findPersonName = "select ps.library_id, ps.name, lp.library_id from person as ps, library_patron as lp where ps.library_id = lp.library_id;";
     private static String checkoutConfirm = "update copy set patron_id = ?, checkout_date = ? where inventory_number = ?;";
-    
+
     private static String findPersonCheckouts = "SELECT * FROM (SELECT * FROM COPY LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = COPY.doi_eidr) WHERE patron_id = ?;";
     private static String returnConfirm = "update copy set patron_id = ?, checkout_date = ? where inventory_number = ?;";
     private static String returnReport = "insert into return values (?,?,?,?);";
@@ -599,9 +613,9 @@ public class InputManager {
 	    }
 	    System.out.println("Your checkout is processed!\nYour item is due within the next 30 days!");
 	    try {
-	    upStmt.close();
-	    stmt.close();
-	    stmt2.close();
+		upStmt.close();
+		stmt.close();
+		stmt2.close();
 		rs.close();
 		rs2.close();
 	    } catch (SQLException e) {
@@ -613,118 +627,117 @@ public class InputManager {
 	    System.out.println("The given libray ID is incorrect or not in our system");
 	}
     }
-    
+
     public static void addReturnItem(BufferedReader reader, Connection conn) {
-    	Map<String, String[]> inventory = new HashMap<String, String[]>();
-    	Map<String, String> people = new HashMap<String, String>();
-    	PreparedStatement stmt = null;
-    	ResultSet rs = null;
-    	PreparedStatement stmt2 = null;
-    	ResultSet rs2 = null;
-    	
-    	try {
-    	    stmt2 = conn.prepareStatement(findPersonName);
-    	    rs2 = DBUtils.queryConnection(conn, stmt2);
-    	    while (rs2.next()) {
-    		String id = rs2.getString("library_id");
-    		String name = rs2.getString("name");
-    		people.put(id, name);
-    	    }
-    	} catch (SQLException e) {
-    	    e.printStackTrace();
-    	}
+	Map<String, String[]> inventory = new HashMap<String, String[]>();
+	Map<String, String> people = new HashMap<String, String>();
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
+	PreparedStatement stmt2 = null;
+	ResultSet rs2 = null;
 
-    	System.out.println("Enter your library id: ");
-    	String user_id = readLine(reader);
-    	int[] arr = null;
-    	try {
-    	    arr = prettyPrintMap(conn);
-    	} catch (SQLException e1) {
-    	    // TODO Auto-generated catch block
-    	    e1.printStackTrace();
-    	}
-    	if (people.containsKey(user_id)) {
-    	    System.out.println("Hello " + people.get(user_id));
-    	    System.out.println();
-    	    try {
-    	    	arr[0] = "Inventory Number".length() + 1;
-    	    	stmt = conn.prepareStatement(findPersonCheckouts);
-    	    	stmt.setString(1, user_id);
-    	    	rs = DBUtils.queryConnection(conn, stmt);
-    	    	while (rs.next()) {
-    	    		String[] array = new String[4];
-    	    		array[0] = prettyPrintSizer(rs.getString("title"), arr[1]);
-    	    		array[1] = prettyPrintSizer(rs.getString("doi_eidr"), arr[2]);
-    	    		array[2] = rs.getString("patron_id");
-    	    		array[3] = rs.getString("checkout_date");
-    	    		inventory.put(prettyPrintSizer(rs.getString("inventory_number"), arr[0]), array);
-    	    	}
-    	    } catch (SQLException e) {
-    	    	e.printStackTrace();
-    	    }
-    	    
-    	    System.out.println("Here is a list of items avaiable for return:");
-    	    String str2 = prettyPrintSizer("Media Title", arr[1]);
-    	    String str3 = prettyPrintSizer("DOI/EIDR", arr[2]);
-    	    System.out.println("Inventory Number " + str2 + str3);
-    	    for (Map.Entry<String, String[]> entry : inventory.entrySet()) {
-    	    	String inv_num = entry.getKey();
-    	    	String[] list = entry.getValue();
-    	    	System.out.println(inv_num + list[0] + list[1]);
-    	    }
-    	    
-    	    System.out.println("Please enter the inventory number of the item to return");
-    	    String check_inv = readLine(reader);
-    	    PreparedStatement upStmt = null;
-    	    PreparedStatement retStmt = null;
-    	    try {
-    		upStmt = conn.prepareStatement(returnConfirm);
-    		retStmt = conn.prepareStatement(returnReport);
-    		conn.setAutoCommit(false);
-    		LocalDate dateObj = LocalDate.now();
-    		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-    		String date = dateObj.format(formatter);
+	try {
+	    stmt2 = conn.prepareStatement(findPersonName);
+	    rs2 = DBUtils.queryConnection(conn, stmt2);
+	    while (rs2.next()) {
+		String id = rs2.getString("library_id");
+		String name = rs2.getString("name");
+		people.put(id, name);
+	    }
+	} catch (SQLException e) {
+	    e.printStackTrace();
+	}
 
-    		upStmt.setString(1, null);
-    		upStmt.setString(2, null);
-    		upStmt.setString(3, check_inv);
-    		
-    		
-    		retStmt.setString(1, check_inv);
-    		retStmt.setString(2, user_id);
-    		String temp = prettyPrintSizer(check_inv, "Inventory_Number".length() + 1);
-    		for (Map.Entry<String, String[]> entry : inventory.entrySet()) {
-    	    	String inv_num = entry.getKey();
-    	    	String[] list = entry.getValue();
-    	    	if (inv_num.equals(temp)) {
-    	    		retStmt.setString(3, list[3]);
-    	    	}
-    	    }
-    		
-    		retStmt.setString(4, date);
-    		DBUtils.updateQueryConnection(conn, retStmt);
-    		DBUtils.updateQueryConnection(conn, upStmt);
-    		conn.commit();
-    	    } catch (SQLException e) {
-    		// TODO Auto-generated catch block
-    		e.printStackTrace();
-    	    }
-    	    System.out.println("Your return is processed!");
-    	    try {
-				stmt.close();
-				stmt2.close();
-	    	    upStmt.close();
-	    	    retStmt.close();
-	    	    rs.close();
-	    	    rs2.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-    	    
-    	} else {
-    		System.out.println("The given libray ID is incorrect or not in our system");
-    	}
+	System.out.println("Enter your library id: ");
+	String user_id = readLine(reader);
+	int[] arr = null;
+	try {
+	    arr = prettyPrintMap(conn);
+	} catch (SQLException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+	if (people.containsKey(user_id)) {
+	    System.out.println("Hello " + people.get(user_id));
+	    System.out.println();
+	    try {
+		arr[0] = "Inventory Number".length() + 1;
+		stmt = conn.prepareStatement(findPersonCheckouts);
+		stmt.setString(1, user_id);
+		rs = DBUtils.queryConnection(conn, stmt);
+		while (rs.next()) {
+		    String[] array = new String[4];
+		    array[0] = prettyPrintSizer(rs.getString("title"), arr[1]);
+		    array[1] = prettyPrintSizer(rs.getString("doi_eidr"), arr[2]);
+		    array[2] = rs.getString("patron_id");
+		    array[3] = rs.getString("checkout_date");
+		    inventory.put(prettyPrintSizer(rs.getString("inventory_number"), arr[0]), array);
+		}
+	    } catch (SQLException e) {
+		e.printStackTrace();
+	    }
+
+	    System.out.println("Here is a list of items avaiable for return:");
+	    String str2 = prettyPrintSizer("Media Title", arr[1]);
+	    String str3 = prettyPrintSizer("DOI/EIDR", arr[2]);
+	    System.out.println("Inventory Number " + str2 + str3);
+	    for (Map.Entry<String, String[]> entry : inventory.entrySet()) {
+		String inv_num = entry.getKey();
+		String[] list = entry.getValue();
+		System.out.println(inv_num + list[0] + list[1]);
+	    }
+
+	    System.out.println("Please enter the inventory number of the item to return");
+	    String check_inv = readLine(reader);
+	    PreparedStatement upStmt = null;
+	    PreparedStatement retStmt = null;
+	    try {
+		upStmt = conn.prepareStatement(returnConfirm);
+		retStmt = conn.prepareStatement(returnReport);
+		conn.setAutoCommit(false);
+		LocalDate dateObj = LocalDate.now();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+		String date = dateObj.format(formatter);
+
+		upStmt.setString(1, null);
+		upStmt.setString(2, null);
+		upStmt.setString(3, check_inv);
+
+		retStmt.setString(1, check_inv);
+		retStmt.setString(2, user_id);
+		String temp = prettyPrintSizer(check_inv, "Inventory_Number".length() + 1);
+		for (Map.Entry<String, String[]> entry : inventory.entrySet()) {
+		    String inv_num = entry.getKey();
+		    String[] list = entry.getValue();
+		    if (inv_num.equals(temp)) {
+			retStmt.setString(3, list[3]);
+		    }
+		}
+
+		retStmt.setString(4, date);
+		DBUtils.updateQueryConnection(conn, retStmt);
+		DBUtils.updateQueryConnection(conn, upStmt);
+		conn.commit();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Your return is processed!");
+	    try {
+		stmt.close();
+		stmt2.close();
+		upStmt.close();
+		retStmt.close();
+		rs.close();
+		rs2.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+
+	} else {
+	    System.out.println("The given libray ID is incorrect or not in our system");
+	}
     }
 
     public static int[] prettyPrintMap(Connection conn) throws SQLException {
@@ -748,15 +761,15 @@ public class InputManager {
 	    arr[2] = rs5.getInt("max_doi");
 	}
 	try {
-		stmt3.close();
-		stmt4.close();
-		stmt5.close();
-		rs3.close();
-		rs4.close();
-		rs5.close();
+	    stmt3.close();
+	    stmt4.close();
+	    stmt5.close();
+	    rs3.close();
+	    rs4.close();
+	    rs5.close();
 	} catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
 	}
 	return arr;
     }
@@ -795,6 +808,311 @@ public class InputManager {
 	}
 	System.out.println("Any copy with inventory number " + invNo + " was deleted");
 
+    }
+
+    public static void editEntry(BufferedReader reader, Connection conn) {
+	System.out.println("Do you wish to edit an 'audiobook', 'movie', or 'musical album'?");
+	String choice = readLine(reader).toLowerCase();
+	switch (choice) {
+	case "audiobook":
+	    editAudioBook(reader, conn);
+	    break;
+	case "movie":
+	    editMovie(reader, conn);
+	    break;
+	case "musical album":
+	    editAlbum(reader, conn);
+	    break;
+	default:
+	    System.out.println("Input not recognized, returning to main menu");
+	    break;
+	}
+    }
+
+    public static void editAudioBook(BufferedReader reader, Connection conn) {
+	System.out.println("Enter the doi/eidr of the audiobook you wish to edit ");
+	String doi = readLine(reader);
+	System.out.println("What do you wish to change? Enter 'title', 'date of publication', 'length', or 'genre' ");
+	String choice = readLine(reader);
+	switch (choice) {
+	case "title":
+	    System.out.println("Enter new title: ");
+	    String title = readLine(reader);
+	    PreparedStatement psTitle = null;
+	    try {
+		psTitle = conn.prepareStatement(updateTitle);
+		psTitle.setString(1, title);
+		psTitle.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psTitle);
+		psTitle.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	case "date of publication":
+	    System.out.println("Enter new publishing date (YYYY-MM-DD): ");
+	    String date = readLine(reader);
+	    PreparedStatement psDate = null;
+	    try {
+		psDate = conn.prepareStatement(updatePubDate);
+		psDate.setString(1, date);
+		psDate.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psDate);
+		psDate.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+
+	    break;
+	case "length":
+	    System.out.println("Enter new length (HH:MM:SS): ");
+	    String length = readLine(reader);
+	    PreparedStatement psLength = null;
+	    try {
+		psLength = conn.prepareStatement(updateAudiobookLength);
+		psLength.setString(1, length);
+		psLength.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psLength);
+		psLength.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	case "genre":
+	    System.out.println("Enter new genre: ");
+	    String genre = readLine(reader);
+	    PreparedStatement psGenre = null;
+	    try {
+		psGenre = conn.prepareStatement(updateAudiobookGenre);
+		psGenre.setString(1, genre);
+		psGenre.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psGenre);
+		psGenre.close();
+
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+
+	    break;
+	default:
+	    System.out.println("Input not recognized");
+	}
+
+    }
+
+    public static void editMovie(BufferedReader reader, Connection conn) {
+	System.out.println("Enter the doi/eidr of the Movie you wish to edit ");
+	String doi = readLine(reader);
+	System.out.println(
+		"What do you wish to change? Enter 'title', 'date of publication', 'runtime', 'publisher', 'rating' or 'genre' ");
+	String choice = readLine(reader).toLowerCase();
+
+	switch (choice) {
+	case "title":
+	    System.out.println("Enter new title: ");
+	    String title = readLine(reader);
+	    PreparedStatement psTitle = null;
+	    try {
+		psTitle = conn.prepareStatement(updateTitle);
+		psTitle.setString(1, title);
+		psTitle.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psTitle);
+		psTitle.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	case "date of publication":
+	    System.out.println("Enter new publishing date (YYYY-MM-DD): ");
+	    String date = readLine(reader);
+	    PreparedStatement psDate = null;
+	    try {
+		psDate = conn.prepareStatement(updatePubDate);
+		psDate.setString(1, date);
+		psDate.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psDate);
+		psDate.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+
+	    break;
+	case "runtime":
+	    System.out.println("Enter new runtime (HH:MM:SS): ");
+	    String runtime = readLine(reader);
+	    PreparedStatement psRuntime = null;
+	    try {
+		psRuntime = conn.prepareStatement(updateMovieRuntime);
+		psRuntime.setString(1, runtime);
+		psRuntime.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psRuntime);
+		psRuntime.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+
+	    break;
+	case "publisher":
+	    System.out.println("Enter new publisher: ");
+	    String publisher = readLine(reader);
+	    PreparedStatement psPublisher = null;
+	    try {
+		psPublisher = conn.prepareStatement(updateMoviePublisher);
+		psPublisher.setString(1, publisher);
+		psPublisher.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psPublisher);
+		psPublisher.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	case "rating":
+	    System.out.println("Enter new rating: ");
+	    String rating = readLine(reader);
+	    PreparedStatement psRating = null;
+	    try {
+		psRating = conn.prepareStatement(updateMovieRating);
+		psRating.setString(1, rating);
+		psRating.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psRating);
+		psRating.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	case "genre":
+	    System.out.println("Enter new Genre: ");
+	    String genreMovie = readLine(reader);
+	    PreparedStatement psGenreMovie = null;
+	    try {
+		psGenreMovie = conn.prepareStatement(updateMovieGenre);
+		psGenreMovie.setString(1, genreMovie);
+		psGenreMovie.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psGenreMovie);
+		psGenreMovie.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	default:
+	    System.out.println("Input not recognized.");
+
+	}
+
+    }
+
+    public static void editAlbum(BufferedReader reader, Connection conn) {
+	System.out.println("Enter the doi/eidr of the album you wish to edit ");
+	String doi = readLine(reader);
+	System.out.println(
+		"What do you wish to change? Enter 'title', 'date of publication', 'runtime', 'record label', or 'genre' ");
+	String choice = readLine(reader).toLowerCase();
+
+	switch (choice) {
+	case "title":
+	    System.out.println("Enter new title: ");
+	    String title = readLine(reader);
+	    PreparedStatement psTitle = null;
+	    try {
+		psTitle = conn.prepareStatement(updateTitle);
+		psTitle.setString(1, title);
+		psTitle.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psTitle);
+		psTitle.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	case "date of publication":
+	    System.out.println("Enter new publishing date (YYYY-MM-DD): ");
+	    String date = readLine(reader);
+	    PreparedStatement psDate = null;
+	    try {
+		psDate = conn.prepareStatement(updatePubDate);
+		psDate.setString(1, date);
+		psDate.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psDate);
+		psDate.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+
+	    break;
+	case "runtime":
+	    System.out.println("Enter new runtime (HH:MM:SS): ");
+	    String runtime = readLine(reader);
+	    PreparedStatement psRuntime = null;
+	    try {
+		psRuntime = conn.prepareStatement(updateAlbumRuntime);
+		psRuntime.setString(1, runtime);
+		psRuntime.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psRuntime);
+		psRuntime.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	case "record label":
+	    System.out.println("Enter new record label: ");
+	    String label = readLine(reader);
+	    PreparedStatement psLabel = null;
+	    try {
+		psLabel = conn.prepareStatement(updateAlbumLabel);
+		psLabel.setString(1, label);
+		psLabel.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psLabel);
+		psLabel.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	case "genre":
+	    System.out.println("Enter new runtime genre: ");
+	    String genre = readLine(reader);
+	    PreparedStatement psGenre = null;
+	    try {
+		psGenre = conn.prepareStatement(updateMovieRuntime);
+		psGenre.setString(1, genre);
+		psGenre.setString(2, doi);
+		DBUtils.updateQueryConnection(conn, psGenre);
+		psGenre.close();
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	    System.out.println("Entry updated.");
+	    break;
+	default:
+	    System.out.println("Input not recognized.");
+	}
     }
 
 }
