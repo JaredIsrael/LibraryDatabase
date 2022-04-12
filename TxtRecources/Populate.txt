@@ -1439,7 +1439,7 @@ INSERT INTO PERSON
 VALUES ('Westside Gunn', '1982-07-27', '93');
 
 INSERT INTO MUSICAL_ARTIST
-VALUES ('93', 'https://open.spotify.com/artist/0ABk515kENDyATUdpCKVfW?autoplay=true');
+VALUES ('93', 'https://open.spotify.com/artist/0ABk515kENDyATUdpCKVfW?autoplay=true', null);
 
 INSERT INTO FEATURED_ARTIST
 VALUES ('Murder Czn', '00:03:28', '194690528033', '93');
@@ -1448,7 +1448,7 @@ INSERT INTO PERSON
 VALUES ('Sideshow', NULL, '94');
 
 INSERT INTO MUSICAL_ARTIST
-VALUES ('94', 'https://open.spotify.com/artist/53xeKWbSRuGgTxViJTAZKC');
+VALUES ('94', 'https://open.spotify.com/artist/53xeKWbSRuGgTxViJTAZKC', null);
 
 INSERT INTO FEATURED_ARTIST
 VALUES ('alarmed!', '00:02:36', '5054283379136', '94');
@@ -1457,7 +1457,7 @@ INSERT INTO PERSON
 VALUES ('Kanye West', '1977-06-08', '95');
 
 INSERT INTO MUSICAL_ARTIST
-VALUES ('95', 'https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x');
+VALUES ('95', 'https://open.spotify.com/artist/5K4W6rqBFWDnAN6FQUkS6x', null);
 
 INSERT INTO FEATURED_ARTIST
 VALUES ('Go2DaMoon', '00:01:59', '602435693064', '95');
@@ -1466,7 +1466,7 @@ INSERT INTO PERSON
 VALUES ('Blood Orange', '1985-12-23', '96');
 
 INSERT INTO MUSICAL_ARTIST
-VALUES ('96', 'https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR?autoplay=true');
+VALUES ('96', 'https://open.spotify.com/artist/6LEeAFiJF8OuPx747e1wxR?autoplay=true', null);
 
 INSERT INTO FEATURED_ARTIST
 VALUES ('Alien Love Call', '00:02:56', '016861744205', '96');
@@ -1475,7 +1475,7 @@ INSERT INTO PERSON
 VALUES ('Anderson.paak', '1986-02-08', '97');
 
 INSERT INTO MUSICAL_ARTIST
-VALUES ('97', 'https://open.spotify.com/artist/3jK9MiCrA42lLAdMGUZpwa?autoplay=true');
+VALUES ('97', 'https://open.spotify.com/artist/3jK9MiCrA42lLAdMGUZpwa?autoplay=true', null);
 
 INSERT INTO FEATURED_ARTIST
 VALUES ('Price Tags', '00:04:23', '886448960133', '97');
