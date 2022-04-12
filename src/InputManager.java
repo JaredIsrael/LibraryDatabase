@@ -62,7 +62,21 @@ public class InputManager {
     private static String findPersonCheckouts = "SELECT * FROM (SELECT * FROM COPY LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = COPY.doi_eidr) WHERE patron_id = ?;";
     private static String returnConfirm = "update copy set patron_id = ?, checkout_date = ? where inventory_number = ?;";
     private static String returnReport = "insert into return values (?,?,?,?);";
+	
+    //Index
+	
+    //Views
+    private static String artistsGenreIndex = "SELECT name, genre, MA.library_id FROM (MUSICAL_ALBUM AS MA JOIN MUSICAL_ARTIST AS M ON MA.library_id = M.library_id) AS Q, PERSON AS P WHERE Q.library_id = P.library_id";
 
+    private static String actorGenreIndex = "SELECT genre, title, name" + "FROM (MOVIE AS M JOIN MEDIA_ITEM AS MI ON M.doi_eidr = MI.doi_eidr) AS Q," + "(CAST AS C JOIN PERSON AS P ON C.library_id = P.library_id) AS Q1" 
+	+ "WHERE Q.doi_eidr = C.doi_eidr" + "ORDER BY genre ASC;";
+
+    private static String songGenreIndex = "SELECT name, genre FROM (MUSICAL_ALBUM AS MA JOIN SONG AS S ON MA.doi_eidr = S.doi_eidr) ORDER BY name ASC;";
+	
+    private static String audioBookIndex = "SELECT title, genre, name FROM (AUDIOBOOK AS AB JOIN MEDIA_ITEM AS MI ON AB.doi_eidr = MI.doi_eidr), Person AS P WHERE author_library_id = P.library_id";
+
+
+	
     public static void addItem(BufferedReader reader, Connection conn) {
 	String nextLine = "";
 	boolean foundType = false;
