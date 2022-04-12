@@ -1,0 +1,59 @@
+CREATE VIEW ARIST_ALBUM_COUNT (
+    Name,
+    Count
+)
+AS
+    SELECT P.name,
+           COUNT( * ) 
+      FROM (
+               (
+                   MUSICAL_ARTIST AS MA
+                   JOIN
+                   PERSON AS P ON MA.library_id = P.library_id
+               )
+               JOIN
+               MUSICAL_ALBUM AS A ON A.library_id = P.library_id
+           )
+     GROUP BY P.name;
+
+CREATE VIEW AUDIOBOOK_BY_GENRE AS
+    SELECT title,
+           genre,
+           name
+      FROM (
+               AUDIOBOOK AS AB
+               JOIN
+               MEDIA_ITEM AS MI ON AB.doi_eidr = MI.doi_eidr
+           ),
+           Person AS P
+     WHERE author_library_id = P.library_id;
+
+CREATE VIEW AVAILABLE_COPIES (
+    Title,
+    Available
+)
+AS
+    SELECT MI.title,
+           COUNT( * ) 
+      FROM (
+               (
+                   MEDIA_ITEM AS MI
+                   JOIN
+                   AUDIOBOOK AS A ON MI.doi_eidr = A.doi_eidr
+               )
+               JOIN
+               COPY AS C ON C.doi_eidr = MI.doi_eidr
+           )
+     WHERE C.patron_id IS NULL
+     GROUP BY MI.title;
+     
+     CREATE VIEW SONGS_BY_GENRE AS
+    SELECT name,
+           genre
+      FROM (
+               MUSICAL_ALBUM AS MA
+               JOIN
+               SONG AS S ON MA.doi_eidr = S.doi_eidr
+           )
+     ORDER BY name ASC;
+
