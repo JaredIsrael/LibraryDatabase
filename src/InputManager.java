@@ -39,6 +39,8 @@ public class InputManager {
     private static String findMusicalArtist = "SELECT* FROM MUSICAL_ARTIST AS M WHERE M.library_id=?;";
     // Order: Name, runtime, doi
     private static String insertSong = "INSERT INTO SONG VALUES(?,?,?);";
+	//Order: Order Number, Price per Unit, Tracking Number, Carrier, DOI.EIDR
+    private static String insertOrder = "INSERT INTO MEDIA_ORDER VALUES(?,?,?,?,?);"; 
 
     private static String updateTitle = "UPDATE MEDIA_ITEM SET title=? WHERE doi_eidr=?;";
     private static String updatePubDate = "UPDATE MEDIA_ITEM SET pub_date=? WHERE doi_eidr=?;";
@@ -53,6 +55,8 @@ public class InputManager {
     private static String updateAlbumRuntime = "UPDATE MUSICAL_ALBUM SET runtime=? WHERE doi_eidr=?;";
     private static String updateAlbumLabel = "UPDATE MUSICAL_ALBUM SET record_label=? WHERE doi_eidr=?;";
     private static String updateAlbumGenre = "UPDATE MUSICAL_ALBUM SET genre=? WHERE doi_eidr=?;";
+	
+    private static String retrievePatron = "SELECT access_credentials FROM LIBRARY_PATRON WHERE library_id=?;";
 
     private static String nextUniqueId = "SELECT MAX(library_id) AS max FROM PERSON;";
     private static String checkoutInventory = "select mi.title, mi.doi_eidr, cp.doi_eidr, cp.patron_id, cp.checkout_date, cp.inventory_number from copy as cp, media_item as mi where mi.doi_eidr = cp.doi_eidr;";
@@ -533,6 +537,85 @@ public class InputManager {
 	}
     }
 
+	
+	public static void addOrder(BufferedReader reader, Connection conn) {
+    	Map<String, String[]> inventory = new HashMap<String, String[]>();
+    	Map<String, String> people = new HashMap<String, String>();
+
+    	PreparedStatement stmt = null;
+    	ResultSet rs = null;
+    	PreparedStatement stmt2 = null;
+    	ResultSet rs2 = null;
+
+    	System.out.println("Enter your library id: ");
+    	String user_id = readLine(reader);
+    	try {
+			stmt = conn.prepareStatement(retrievePatron);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	try {
+			stmt.setString(1, user_id);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+    	rs = DBUtils.queryConnection(conn, stmt);
+    	
+    	try {
+			if (rs.getBoolean("access_credientials")) {
+			    System.out.println("Hello " + people.get(user_id));
+			    System.out.println();
+			 
+			    //Order: Order Number, Price per Unit, Tracking Number, Carrier, DOI.EIDR
+			    System.out.println("Please enter the Order Number, Price per Unit, Tracking Number, Carrier, and DOI.EIDR of the item to order");
+			    PreparedStatement upStmt = null;
+			    try {
+				upStmt = conn.prepareStatement(insertOrder);
+				
+				String order_num = readLine(reader);
+				upStmt.setString(1, order_num);
+				
+				String ppu = readLine(reader);
+				upStmt.setFloat(2, Float.parseFloat(ppu));
+				
+				String track_num = readLine(reader);
+				upStmt.setString(3, track_num);
+				
+				String carrier = readLine(reader);
+				upStmt.setString(4, carrier);
+				
+				String doi_eidr = readLine(reader);
+				upStmt.setString(5, doi_eidr);
+				DBUtils.updateQueryConnection(conn, upStmt);
+			    } catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			    }
+			    System.out.println("Your Order is processed!\nYour item is due soon!");
+			    try {
+				upStmt.close();
+				stmt.close();
+				stmt2.close();
+				rs.close();
+				rs2.close();
+			    } catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			    }
+
+			} else {
+			    System.out.println("The given libray ID does not have access credentials");
+			}
+		} catch (NumberFormatException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    }
     public static void addCheckoutItem(BufferedReader reader, Connection conn) {
 	Map<String, String[]> inventory = new HashMap<String, String[]>();
 	Map<String, String> people = new HashMap<String, String>();
