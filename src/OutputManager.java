@@ -163,6 +163,7 @@ public class OutputManager {
     	
     	switch(nextLine) {
     	case "name":
+
     		sqlStatement1 = "SELECT * FROM (SELECT * FROM FEATURED_ARTIST, MUSICAL_ARTIST WHERE FEATURED_ARTIST.library_id = MUSICAL_ARTIST.library_id AND FEATURED_ARTIST.name = ?)";
     		System.out.println("What is the name?");
     		break;
@@ -358,7 +359,7 @@ public class OutputManager {
 	static void searchAlbum(BufferedReader reader,Connection conn) {
 		System.out.println("What is the album doi_eidr?");
 		
-    	String sqlStatement1 = "SELECT * FROM MUSICAL_ALBUM WHERE doi_eidr = ?;";
+    	String sqlStatement1 = "SELECT * FROM (SELECT * FROM MUSICAL_ALBUM LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = MUSICAL_ALBUM.doi_eidr) WHERE doi_eidr = ?;";
     	String x = "";
     	PreparedStatement ps = null;
         	try {
@@ -382,7 +383,12 @@ public class OutputManager {
 	                String genre = myRs.getString("genre");
 	                String record_label = myRs.getString("record_label");
 	                
+	            	String title = myRs.getString("title");
+	            	String pub_date = myRs.getString("pub_date");
+	                
 	                System.out.println();
+	                System.out.println("title: " + title);
+	                System.out.println("pub_date: " + pub_date);
 	                System.out.println("doi_eidr: " + doi_eidr);
 	                System.out.println("library_id: " + library_id);
 	                System.out.println("runtime: " + runtime);
@@ -402,7 +408,8 @@ public class OutputManager {
 	static void searchAudiobook(BufferedReader reader,Connection conn) {
 		System.out.println("What is the audiobook doi_eidr?");
 		
-    	String sqlStatement1 = "SELECT * FROM AUDIOBOOK WHERE doi_eidr = ?;";
+    	String sqlStatement1 = "SELECT * FROM (SELECT * FROM AUDIOBOOK LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = AUDIOBOOK.doi_eidr) WHERE doi_eidr = ?;";
+
     	String x = "";
     	PreparedStatement ps = null;
         	try {
@@ -420,6 +427,10 @@ public class OutputManager {
 				
 	            while (myRs.next()) {
 	            	empty = false;
+	                // joined info
+	            	String title = myRs.getString("title");
+	            	String pub_date = myRs.getString("pub_date");
+	            	
 	                String doi_eidr = myRs.getString("doi_eidr");
 	                String length = myRs.getString("length");
 	                String genre = myRs.getString("genre");
@@ -427,6 +438,9 @@ public class OutputManager {
 	                String narr_id = myRs.getString("narrator_library_id");
 	                
 	                System.out.println();
+	                System.out.println("title: " + title);
+	                System.out.println("pub_date: " + pub_date);
+	                
 	                System.out.println("doi_eidr: " + doi_eidr);
 	                System.out.println("length: " + length);
 	                System.out.println("genre: " + genre);
@@ -448,7 +462,7 @@ public class OutputManager {
 		
 		System.out.println("What is the movie doi_eidr?");
 		
-    	String sqlStatement1 = "SELECT * FROM MOVIE WHERE doi_eidr = ?;";
+    	String sqlStatement1 = "SELECT * FROM (SELECT * FROM MOVIE LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = MOVIE.doi_eidr) WHERE doi_eidr = ?;";
     	String x = "";
     	PreparedStatement ps = null;
         	try {
@@ -466,18 +480,26 @@ public class OutputManager {
 				
 	            while (myRs.next()) {
 	            	empty = false;
+	            	
+	                // joined info
+	            	String title = myRs.getString("title");
+	            	String pub_date = myRs.getString("pub_date");
+	            	
 	                String doi_eidr = myRs.getString("doi_eidr");
 	                String runtime = myRs.getString("runtime");
 	                String genre = myRs.getString("genre");
 	                String publisher = myRs.getString("publisher");
-	                String imdb_rating = myRs.getString("imdb_rating");
+	                String rating = myRs.getString("rating");
 	                
 	                System.out.println();
+	                System.out.println("title: " + title);
+	                System.out.println("pub_date: " + pub_date);
+	                
 	                System.out.println("doi_eidr: " + doi_eidr);
 	                System.out.println("runtime: " + runtime);
 	                System.out.println("genre: " + genre);
 	                System.out.println("publisher: " + publisher);
-	                System.out.println("imdb_rating: " + imdb_rating);
+	                System.out.println("rating: " + rating);
 	                System.out.println();
 	            }
 	            if(empty) {
@@ -493,7 +515,7 @@ public class OutputManager {
 	
 		System.out.println("What is the musictrack doi_eidr?");
 		
-    	String sqlStatement1 = "SELECT * FROM SONG WHERE doi_eidr = ?;";
+    	String sqlStatement1 = "SELECT * FROM (SELECT * FROM SONG LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = SONG.doi_eidr) WHERE doi_eidr = ?;";
     	String x = "";
     	PreparedStatement ps = null;
         	try {
@@ -511,11 +533,17 @@ public class OutputManager {
 				
 	            while (myRs.next()) {
 	            	empty = false;
+	            	
+	            	String title = myRs.getString("title");
+	            	String pub_date = myRs.getString("pub_date");
+	            	
 	                String doi_eidr = myRs.getString("doi_eidr");
 	                String runtime = myRs.getString("runtime");
 	                String name = myRs.getString("name");
 	                
 	                System.out.println();
+	                System.out.println("title: " + title);
+	                System.out.println("pub_date: " + pub_date);
 	                System.out.println("doi_eidr: " + doi_eidr);
 	                System.out.println("runtime: " + runtime);
 	                System.out.println("name: " + name);
