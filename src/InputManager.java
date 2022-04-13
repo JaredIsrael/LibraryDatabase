@@ -572,7 +572,7 @@ public class InputManager {
 	PreparedStatement stmt = null;
 	ResultSet rs = null;
 
-	System.out.println("Enter your library id: ");
+	System.out.println("Enter your library id (for debug use, lib. id '9' has admin access): ");
 	String user_id = readLine(reader);
 	try {
 	    stmt = conn.prepareStatement(retrievePatron);
@@ -596,7 +596,7 @@ public class InputManager {
 
 		    // Order: Order Number, Price per Unit, Tracking Number, Carrier, DOI.EIDR
 		    System.out.println(
-			    "Please enter the Order Number, Price per Unit, Tracking Number, Carrier, and DOI.EIDR of the item to order");
+			    "Please enter the Order Number, Price per Unit (floating point value in $), Tracking Number, Carrier, and DOI/EIDR of the item to order");
 		    PreparedStatement upStmt = null;
 		    try {
 			upStmt = conn.prepareStatement(insertOrder);
@@ -664,7 +664,7 @@ public class InputManager {
 		PreparedStatement ps2 = conn.prepareStatement(deleteOrder), ps3 = conn.prepareStatement(insertCopy);
 		ps2.setString(1, orderNum);
 		DBUtils.updateQueryConnection(conn, ps2);
-		System.out.println("Enter unqiue inventory number: ");
+		System.out.println("Enter new unqiue inventory number: ");
 		String invNo = readLine(reader);
 		ps3.setString(1, invNo);
 		ps3.setString(2, doi);
@@ -675,6 +675,10 @@ public class InputManager {
 		String loc = readLine(reader);
 		ps3.setNull(4, Types.VARCHAR);
 		ps3.setNull(5, Types.VARCHAR);
+		DBUtils.updateQueryConnection(conn, ps3);
+		System.out.println("Order marked as received and a copy of the item has been added to database.");
+		ps2.close();
+		ps3.close();
 
 	    } else {
 		System.out.println("Order num not recognized");
