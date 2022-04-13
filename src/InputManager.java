@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -71,14 +72,12 @@ public class InputManager {
     private static String insertPatron = "INSERT INTO LIBRARY_PATRON VALUES (?,?,?,?,?);";
     // Delete patron
     private static String deletePatron = "DELETE FROM LIBRARY_PATRON WHERE library_id = ?;";
-    private static String mostMovies = "SELECT name, MAX(count) FROM (SELECT P.library_id,P.name, COUNT(*) as count"
-	    + "FROM ((MOVIE AS M JOIN COPY AS C ON M.doi_eidr=C.doi_eidr)JOIN PERSON AS P ON P.library_id=C.patron_id) GROUP BY P.library_id);";
+    private static String mostMovies = "SELECT name, MAX(count) FROM (SELECT P.library_id,P.name, COUNT(*) as count FROM ((MOVIE AS M JOIN COPY AS C ON M.doi_eidr=C.doi_eidr)JOIN PERSON AS P ON P.library_id=C.patron_id) GROUP BY P.library_id);";
     // Report: Checkouts of each type from user
     private static String allCheckouts = "SELECT MEDIA_ITEM.title, COPY.format 	FROM COPY, MEDIA_ITEM, PERSON 	WHERE COPY.patron_id"
 	    + "= Person.library_id AND Person.name = ? AND MEDIA_ITEM.doi_eidr = COPY.doi_eidr;";
     // Report: Tracks by artist
-    private static String tracksByArtist = "SELECT name FROM SONG, MUSICAL_ALBUM, PERSON WHERE SONG.doi_eidr = MUSICAL_ALBUM.doi_eidr"
-	    + "and	MUSCIAL_ALBUM.library_id = Person.library_id AND Person.name = ?:";
+    private static String tracksByArtist = "SELECT SONG.name FROM SONG, MUSICAL_ALBUM, PERSON WHERE SONG.doi_eidr = MUSICAL_ALBUM.doi_eidr AND MUSICAL_ALBUM.library_id = Person.library_id AND Person.name = ?";
 
     // Views
     private static String artistsGenreIndex = "SELECT name, genre, MA.library_id FROM (MUSICAL_ALBUM AS MA JOIN MUSICAL_ARTIST AS M ON MA.library_id = M.library_id) AS Q, PERSON AS P WHERE Q.library_id = P.library_id";
@@ -91,6 +90,10 @@ public class InputManager {
     private static String songGenreIndex = "SELECT name, genre FROM (MUSICAL_ALBUM AS MA JOIN SONG AS S ON MA.doi_eidr = S.doi_eidr) ORDER BY name ASC;";
 
     private static String audioBookIndex = "SELECT title, genre, name FROM (AUDIOBOOK AS AB JOIN MEDIA_ITEM AS MI ON AB.doi_eidr = MI.doi_eidr), Person AS P WHERE author_library_id = P.library_id";
+
+    private static String findOrder = "SELECT doi_eidr FROM MEDIA_ORDER WHERE order_number=?;";
+    private static String deleteOrder = "DELETE FROM MEDIA_ORDER WHERE order_number=?";
+    private static String insertCopy = "INSERT INTO COPY VALUES (?,?,?,?,?,?)";
 
     public static void addItem(BufferedReader reader, Connection conn) {
 	String nextLine = "";
@@ -640,6 +643,56 @@ public class InputManager {
 	    // TODO Auto-generated catch block
 	    e.printStackTrace();
 	}
+    }
+
+    public static void orderArrived(BufferedReader reader, Connection conn) {
+	try {
+	    conn.setAutoCommit(false);
+	} catch (SQLException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+	System.out.println("Enter order number of arrived item: ");
+	String orderNum = readLine(reader);
+	ResultSet rs = null;
+	try {
+	    PreparedStatement ps = conn.prepareStatement(findOrder);
+	    ps.setString(1, orderNum);
+	    rs = DBUtils.queryConnection(conn, ps);
+	    if (rs.next()) {
+		String doi = rs.getString("doi_eidr");
+		PreparedStatement ps2 = conn.prepareStatement(deleteOrder), ps3 = conn.prepareStatement(insertCopy);
+		ps2.setString(1, orderNum);
+		DBUtils.updateQueryConnection(conn, ps2);
+		System.out.println("Enter unqiue inventory number: ");
+		String invNo = readLine(reader);
+		ps3.setString(1, invNo);
+		ps3.setString(2, doi);
+		System.out.println("Enter format of media item: ");
+		String format = readLine(reader);
+		ps3.setString(3, format);
+		System.out.println("Enter location in library for new item: ");
+		String loc = readLine(reader);
+		ps3.setNull(4, Types.VARCHAR);
+		ps3.setNull(5, Types.VARCHAR);
+
+	    } else {
+		System.out.println("Order num not recognized");
+	    }
+	    ps.close();
+	    rs.close();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	try {
+	    conn.commit();
+	    conn.setAutoCommit(true);
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+
     }
 
     public static void addCheckoutItem(BufferedReader reader, Connection conn) {
