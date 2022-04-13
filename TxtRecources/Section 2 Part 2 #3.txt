@@ -1,0 +1,207 @@
+// Deletes items from the copy table
+// Order: inventory_number
+DELETE 
+FROM COPY 
+WHERE inventory_number=?;
+
+// Inserts a new item into the Media_Item table
+// Order: Title, doi/eidr, pub date
+INSERT INTO MEDIA_ITEM 
+VALUES (?, ?, ?);
+
+// Inserts a new entry into the Person table
+// Order: Name, DOB, library_id
+INSERT INTO PERSON 
+VALUES (?,?,?);
+
+// Finds an entry in PERSON related to their library ID
+// Order: Name
+SELECT library_id 
+FROM PERSON 
+WHERE name = ?;
+
+// Inserts a new entry into the Movie table
+// Order: runtime, publisher, genre, rating, doi
+INSERT INTO MOVIE 
+VALUES(?,?,?,?,?);
+
+// Inserts a new entry into the Actor table
+// Order: library id, imdb url
+INSERT INTO ACTOR 
+VALUES(?,?);
+
+// Inserts a new entry into the Cast table
+// Order: doi, library_id, role
+INSERT INTO CAST 
+VALUES(?,?,?);
+
+// Inserts a new entry into the Musical_Artist table
+// Order: library_id, spotify_url, applemusic_url
+INSERT INTO MUSICAL_ARTIST 
+VALUES(?,?,?);
+
+// Inserts a new entry into the Musical_Album table
+// Order: runtime, record_label, genre, library_id, doi_eidr
+INSERT INTO MUSICAL_ALBUM 
+VALUES(?,?,?,?,?);
+
+// Inserts a new entry into the Audiobook table
+// Order: length, genre, author_library_id, narrator_library_id, doi_eidr
+INSERT INTO AUDIOBOOK 
+VALUES(?,?,?,?,?);
+
+// Inserts a new entry into the Chapter table
+// Order: name, chapter_index, length, doi_eidr
+INSERT INTO BOOK_CHAPTER 
+VALUES(?,?,?,?);
+
+// Finds an entry in the Actor table related to a library ID
+// Order: library id
+SELECT * 
+FROM ACTOR AS A 
+WHERE A.library_id=?";
+
+// Finds an entry in the Muscial_Artist table related to library ID
+// Order: library id
+SELECT* 
+FROM MUSICAL_ARTIST AS M 
+WHERE M.library_id=?;
+
+// Inserts a new entry into the Song table
+// Order: Name, runtime, doi
+INSERT INTO SONG 
+VALUES(?,?,?);
+
+// Updates the title attribute of an entry in the Media_Item related to doi_eidr
+// Order: title
+UPDATE MEDIA_ITEM 
+SET title=? 
+WHERE doi_eidr=?;
+
+// Updates the PubDate attribute of an entry in the Media_Item related to doi_eidr
+// Order: pub_date
+UPDATE MEDIA_ITEM 
+SET pub_date=? 
+WHERE doi_eidr=?;
+
+// Updates the length attribute of an entry in the Audiobook related to doi_eidr
+// Order: length
+UPDATE AUDIOBOOK 
+SET length=? 
+WHERE doi_eidr=?;
+
+// Updates the genre attribute of an entry in the Audiobook related to doi_eidr
+// Order: genre
+UPDATE AUDIOBOOK 
+SET genre=? 
+WHERE doi_eidr=?;
+
+// Updates the runtime attribute of an entry in the Movie related to doi_eidr
+// Order: runtime
+UPDATE MOVIE 
+SET runtime=? 
+WHERE doi_eidr=?;
+
+// Updates the publisher attribute of an entry in the Movie related to doi_eidr
+// Order: publisher
+UPDATE MOVIE 
+SET publisher=? 
+WHERE doi_eidr=?;
+
+// Updates the genre attribute of an entry in the Movie related to doi_eidr
+// Order: genre
+UPDATE MOVIE 
+SET genre=? 
+WHERE doi_eidr=?;
+
+// Updates the rating attribute of an entry in the Movie related to doi_eidr
+// Order: rating
+UPDATE MOVIE 
+SET rating=? 
+WHERE doi_eidr=?;
+
+// Updates the runtime attribute of an entry in the Muscial_Album related to doi_eidr
+// Order: runtime
+UPDATE MUSICAL_ALBUM 
+SET runtime=? 
+WHERE doi_eidr=?;
+
+// Updates the record_label attribute of an entry in the Muscial_Album related to doi_eidr
+// Order: record_label
+UPDATE MUSICAL_ALBUM 
+SET record_label=? 
+WHERE doi_eidr=?;
+
+
+// Updates the genre attribute of an entry in the Muscial_Album related to doi_eidr
+// Order: genre
+UPDATE MUSICAL_ALBUM 
+SET genre=? 
+WHERE doi_eidr=?;
+
+// Finds the highest library ID in the Person table
+SELECT MAX(library_id) AS max 
+FROM PERSON;
+
+// Returns a list of all items the library has in it's possessions
+SELECT mi.title, mi.doi_eidr, cp.doi_eidr, cp.patron_id, cp.checkout_date, cp.inventory_number 
+FROM COPY AS cp, MEDIA_ITEM AS mi 
+WHERE mi.doi_eidr = cp.doi_eidr;
+
+// Finds the library IDs and names of all library patrons
+SELECT ps.library_id, ps.name, lp.library_id 
+FROM PERSON AS ps, LIBRARY_PATRON AS lp 
+WHERE ps.library_id = lp.library_id;
+
+// Updates an entry in Copy when it is returned to the library
+// Order: patron_id, checkout_date
+UPDATE COPY
+SET patron_id = ?, checkout_date = ? 
+WHERE inventory_number = ?;
+
+// Returns a list of all media items a patron has checked out
+SELECT * 
+FROM (
+	SELECT * 
+	FROM COPY LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = COPY.doi_eidr
+	) 
+WHERE patron_id = ?;
+
+// Updates an entry in Copy when it is checked out from the library
+// Order: patron_id, checkout_date
+UPDATE COPY 
+SET patron_id = ?, checkout_date = ? 
+WHERE inventory_number = ?;
+
+// Inserts a new entry into the Return table
+INSERT INTO RETURN
+VALUES (?,?,?,?);
+
+// Inserts a new entry in the Patron table
+// Order: Address, email, Access_credentials, Library_id
+INSERT INTO PATRON 
+VALUES (?,?,?,?);
+
+
+// Deletes an entry in the Patron table
+// Order: library_id
+DELETE FROM PATRON 
+WHERE library_id = ?;
+
+// Prints out a report of the name of the patron with the most movies checked out, and the number of movies
+SELECT name, MAX(count) 
+FROM (
+	SELECT P.library_id,P.name, COUNT(*) as count
+	FROM ((MOVIE AS M JOIN COPY AS C ON M.doi_eidr=C.doi_eidr)JOIN PERSON AS P ON P.library_id=C.patron_id) 
+	GROUP BY P.library_id
+	);
+
+// Prints out a report of the names of all media items checked out by an individual
+SELECT MEDIA_ITEM.title, COPY.format
+FROM COPY, MEDIA_ITEM, PERSON
+WHERE COPY.patron_id = Person.library_id AND Person.name = ? AND MEDIA_ITEM.doi_eidr = COPY.doi_eidr;
+
+// Prints out a report of all the tracks attributed to a given musical artist
+SELECT name 
+FROM SONG, MUSICAL_ALBUM, PERSON 
+WHERE SONG.doi_eidr = MUSICAL_ALBUM.doi_eidr AND MUSCIAL_ALBUM.library_id = Person.library_id AND Person.name = ?;
