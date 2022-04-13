@@ -15,7 +15,7 @@ PRIMARY KEY(library_id)
 CREATE TABLE LIBRARY_PATRON(
 address VARCHAR(300),
 email VARCHAR(100) NOT NULL,
-access_credientials BIT NOT NULL DEFAULT 0,
+access_credentials BIT NOT NULL DEFAULT 0,
 library_id INTEGER NOT NULL,
 active BIT NOT NULL DEFAULT 1,
 PRIMARY KEY(library_id),

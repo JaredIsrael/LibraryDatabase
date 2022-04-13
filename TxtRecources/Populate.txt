@@ -104,7 +104,7 @@ INSERT INTO PERSON
 VALUES('Jared Israel', '2001-11-02', '9');
 
 INSERT INTO LIBRARY_PATRON
-VALUES('305 E 16th Ave', 'israel.93@osu.edu',0, '9',1);
+VALUES('305 E 16th Ave', 'israel.93@osu.edu',1, '9',1);
 
 INSERT INTO COPY
 VALUES('5','9780141023380', 'CD', 'B3', '9', '2022-03-21');

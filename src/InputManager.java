@@ -39,8 +39,8 @@ public class InputManager {
     private static String findMusicalArtist = "SELECT* FROM MUSICAL_ARTIST AS M WHERE M.library_id=?;";
     // Order: Name, runtime, doi
     private static String insertSong = "INSERT INTO SONG VALUES(?,?,?);";
-	//Order: Order Number, Price per Unit, Tracking Number, Carrier, DOI.EIDR
-    private static String insertOrder = "INSERT INTO MEDIA_ORDER VALUES(?,?,?,?,?);"; 
+    // Order: Order Number, Price per Unit, Tracking Number, Carrier, DOI.EIDR
+    private static String insertOrder = "INSERT INTO MEDIA_ORDER VALUES(?,?,?,?,?);";
 
     private static String updateTitle = "UPDATE MEDIA_ITEM SET title=? WHERE doi_eidr=?;";
     private static String updatePubDate = "UPDATE MEDIA_ITEM SET pub_date=? WHERE doi_eidr=?;";
@@ -55,7 +55,7 @@ public class InputManager {
     private static String updateAlbumRuntime = "UPDATE MUSICAL_ALBUM SET runtime=? WHERE doi_eidr=?;";
     private static String updateAlbumLabel = "UPDATE MUSICAL_ALBUM SET record_label=? WHERE doi_eidr=?;";
     private static String updateAlbumGenre = "UPDATE MUSICAL_ALBUM SET genre=? WHERE doi_eidr=?;";
-	
+
     private static String retrievePatron = "SELECT access_credentials FROM LIBRARY_PATRON WHERE library_id=?;";
 
     private static String nextUniqueId = "SELECT MAX(library_id) AS max FROM PERSON;";
@@ -66,21 +66,32 @@ public class InputManager {
     private static String findPersonCheckouts = "SELECT * FROM (SELECT * FROM COPY LEFT JOIN MEDIA_ITEM ON MEDIA_ITEM.doi_eidr = COPY.doi_eidr) WHERE patron_id = ?;";
     private static String returnConfirm = "update copy set patron_id = ?, checkout_date = ? where inventory_number = ?;";
     private static String returnReport = "insert into return values (?,?,?,?);";
-	
-    //Index
-	
-    //Views
+
+    // Order: Address, email, Access_credentials, Library_id, active
+    private static String insertPatron = "INSERT INTO LIBRARY_PATRON VALUES (?,?,?,?,?);";
+    // Delete patron
+    private static String deletePatron = "DELETE FROM LIBRARY_PATRON WHERE library_id = ?;";
+    private static String mostMovies = "SELECT name, MAX(count) FROM (SELECT P.library_id,P.name, COUNT(*) as count"
+	    + "FROM ((MOVIE AS M JOIN COPY AS C ON M.doi_eidr=C.doi_eidr)JOIN PERSON AS P ON P.library_id=C.patron_id) GROUP BY P.library_id);";
+    // Report: Checkouts of each type from user
+    private static String allCheckouts = "SELECT MEDIA_ITEM.title, COPY.format 	FROM COPY, MEDIA_ITEM, PERSON 	WHERE COPY.patron_id"
+	    + "= Person.library_id AND Person.name = ? AND MEDIA_ITEM.doi_eidr = COPY.doi_eidr;";
+    // Report: Tracks by artist
+    private static String tracksByArtist = "SELECT name FROM SONG, MUSICAL_ALBUM, PERSON WHERE SONG.doi_eidr = MUSICAL_ALBUM.doi_eidr"
+	    + "and	MUSCIAL_ALBUM.library_id = Person.library_id AND Person.name = ?:";
+
+    // Views
     private static String artistsGenreIndex = "SELECT name, genre, MA.library_id FROM (MUSICAL_ALBUM AS MA JOIN MUSICAL_ARTIST AS M ON MA.library_id = M.library_id) AS Q, PERSON AS P WHERE Q.library_id = P.library_id";
 
-    private static String actorGenreIndex = "SELECT genre, title, name" + "FROM (MOVIE AS M JOIN MEDIA_ITEM AS MI ON M.doi_eidr = MI.doi_eidr) AS Q," + "(CAST AS C JOIN PERSON AS P ON C.library_id = P.library_id) AS Q1" 
-	+ "WHERE Q.doi_eidr = C.doi_eidr" + "ORDER BY genre ASC;";
+    private static String actorGenreIndex = "SELECT genre, title, name"
+	    + "FROM (MOVIE AS M JOIN MEDIA_ITEM AS MI ON M.doi_eidr = MI.doi_eidr) AS Q,"
+	    + "(CAST AS C JOIN PERSON AS P ON C.library_id = P.library_id) AS Q1" + "WHERE Q.doi_eidr = C.doi_eidr"
+	    + "ORDER BY genre ASC;";
 
     private static String songGenreIndex = "SELECT name, genre FROM (MUSICAL_ALBUM AS MA JOIN SONG AS S ON MA.doi_eidr = S.doi_eidr) ORDER BY name ASC;";
-	
+
     private static String audioBookIndex = "SELECT title, genre, name FROM (AUDIOBOOK AS AB JOIN MEDIA_ITEM AS MI ON AB.doi_eidr = MI.doi_eidr), Person AS P WHERE author_library_id = P.library_id";
 
-
-	
     public static void addItem(BufferedReader reader, Connection conn) {
 	String nextLine = "";
 	boolean foundType = false;
@@ -551,85 +562,86 @@ public class InputManager {
 	}
     }
 
-	
-	public static void addOrder(BufferedReader reader, Connection conn) {
-    	Map<String, String[]> inventory = new HashMap<String, String[]>();
-    	Map<String, String> people = new HashMap<String, String>();
+    public static void addOrder(BufferedReader reader, Connection conn) {
+	Map<String, String[]> inventory = new HashMap<String, String[]>();
+	Map<String, String> people = new HashMap<String, String>();
 
-    	PreparedStatement stmt = null;
-    	ResultSet rs = null;
-    	PreparedStatement stmt2 = null;
-    	ResultSet rs2 = null;
+	PreparedStatement stmt = null;
+	ResultSet rs = null;
 
-    	System.out.println("Enter your library id: ");
-    	String user_id = readLine(reader);
-    	try {
-			stmt = conn.prepareStatement(retrievePatron);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	try {
-			stmt.setString(1, user_id);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-    	rs = DBUtils.queryConnection(conn, stmt);
-    	
-    	try {
-			if (rs.getBoolean("access_credientials")) {
-			    System.out.println("Hello " + people.get(user_id));
-			    System.out.println();
-			 
-			    //Order: Order Number, Price per Unit, Tracking Number, Carrier, DOI.EIDR
-			    System.out.println("Please enter the Order Number, Price per Unit, Tracking Number, Carrier, and DOI.EIDR of the item to order");
-			    PreparedStatement upStmt = null;
-			    try {
-				upStmt = conn.prepareStatement(insertOrder);
-				
-				String order_num = readLine(reader);
-				upStmt.setString(1, order_num);
-				
-				String ppu = readLine(reader);
-				upStmt.setFloat(2, Float.parseFloat(ppu));
-				
-				String track_num = readLine(reader);
-				upStmt.setString(3, track_num);
-				
-				String carrier = readLine(reader);
-				upStmt.setString(4, carrier);
-				
-				String doi_eidr = readLine(reader);
-				upStmt.setString(5, doi_eidr);
-				DBUtils.updateQueryConnection(conn, upStmt);
-			    } catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			    }
-			    System.out.println("Your Order is processed!\nYour item is due soon!");
-			    try {
-				upStmt.close();
-				stmt.close();
-				stmt2.close();
-				rs.close();
-				rs2.close();
-			    } catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			    }
+	System.out.println("Enter your library id: ");
+	String user_id = readLine(reader);
+	try {
+	    stmt = conn.prepareStatement(retrievePatron);
+	} catch (SQLException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+	try {
+	    stmt.setString(1, user_id);
+	} catch (SQLException e1) {
+	    // TODO Auto-generated catch block
+	    e1.printStackTrace();
+	}
+	rs = DBUtils.queryConnection(conn, stmt);
 
-			} else {
-			    System.out.println("The given libray ID does not have access credentials");
-			}
-		} catch (NumberFormatException e) {
+	try {
+	    if (rs.next()) {
+		if (rs.getBoolean("access_credentials")) {
+		    System.out.println("Access credentials recognized.");
+		    System.out.println();
+
+		    // Order: Order Number, Price per Unit, Tracking Number, Carrier, DOI.EIDR
+		    System.out.println(
+			    "Please enter the Order Number, Price per Unit, Tracking Number, Carrier, and DOI.EIDR of the item to order");
+		    PreparedStatement upStmt = null;
+		    try {
+			upStmt = conn.prepareStatement(insertOrder);
+
+			String order_num = readLine(reader);
+			upStmt.setString(1, order_num);
+
+			String ppu = readLine(reader);
+			upStmt.setFloat(2, Float.parseFloat(ppu));
+
+			String track_num = readLine(reader);
+			upStmt.setString(3, track_num);
+
+			String carrier = readLine(reader);
+			upStmt.setString(4, carrier);
+
+			String doi_eidr = readLine(reader);
+			upStmt.setString(5, doi_eidr);
+			DBUtils.updateQueryConnection(conn, upStmt);
+		    } catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SQLException e) {
+		    }
+		    System.out.println("Your order is processed!");
+		    try {
+			upStmt.close();
+			stmt.close();
+			rs.close();
+		    } catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		    }
+
+		} else {
+		    System.out.println("The given libray ID does not have access credentials");
 		}
+	    } else {
+		System.out.println("Library ID not recognized.");
+	    }
+	} catch (NumberFormatException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
     }
+
     public static void addCheckoutItem(BufferedReader reader, Connection conn) {
 	Map<String, String[]> inventory = new HashMap<String, String[]>();
 	Map<String, String> people = new HashMap<String, String>();
@@ -1210,6 +1222,93 @@ public class InputManager {
 	default:
 	    System.out.println("Input not recognized.");
 	}
+    }
+
+    public static void addPatron(BufferedReader reader, Connection conn) {
+	// Order: Address, email, Access_credentials, Library_id
+
+	PreparedStatement ps = null;
+	System.out.println("Enter a person's name: ");
+	int libraryID = readOrAddPerson(reader, conn);
+	System.out.println("Enter your address: ");
+	String address = readLine(reader);
+	System.out.println("Enter your email: ");
+	String email = readLine(reader);
+	try {
+	    ps = conn.prepareStatement(insertPatron);
+	    ps.setString(1, address);
+	    ps.setString(2, email);
+	    ps.setInt(3, 0);
+	    ps.setInt(4, libraryID);
+	    ps.setInt(5, 1);
+	    DBUtils.updateQueryConnection(conn, ps);
+	    ps.close();
+
+	} catch (SQLException e) {
+	    // TODO Auto-generated catch block
+	    e.printStackTrace();
+	}
+	System.out.println("Patron added, assigned library id: " + libraryID);
+
+    }
+
+    public static void deactivateCard(BufferedReader reader, Connection conn) {
+	System.out.println("Enter a patron's id #:");
+	int libraryID = Integer.parseInt(readLine(reader));
+	try {
+	    PreparedStatement ps = null;
+	    ps = conn.prepareStatement(deletePatron);
+	    ps.setInt(1, libraryID);
+	    DBUtils.updateQueryConnection(conn, ps);
+	    ps.close();
+	} catch (Exception e) {
+	    e.printStackTrace();
+	}
+	System.out.println("Patron deactivated.");
+    }
+
+    public static void Report(BufferedReader reader, Connection conn) {
+	System.out.println("For a report on the patron with the most movies currently checked out, enter 1");
+	System.out.println("For a report on all items a patron has checked out, enter 2");
+	System.out.println("For a report of all songs by a particular artist, enter 3");
+	System.out.print("Which report do you wish to view: ");
+	String report = readLine(reader);
+	PreparedStatement ps = null;
+	ResultSet rs = null;
+	if (report.equals("1")) {
+	    try {
+		ps = conn.prepareStatement(mostMovies);
+		rs = DBUtils.queryConnection(conn, ps);
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	} else if (report.equals("2")) {
+	    try {
+		ps = conn.prepareStatement(allCheckouts);
+		System.out.print("Enter the name of a patron: ");
+		String patronName = readLine(reader);
+		ps.setString(1, patronName);
+		rs = DBUtils.queryConnection(conn, ps);
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	} else if (report.equals("3")) {
+	    try {
+		ps = conn.prepareStatement(tracksByArtist);
+		System.out.print("Enter the name of the artist you're looking for: ");
+		String artistName = readLine(reader);
+		ps.setString(1, artistName);
+		rs = DBUtils.queryConnection(conn, ps);
+	    } catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	    }
+	} else {
+
+	}
+	DBUtils.printResultSet(rs);
     }
 
 }

@@ -32,7 +32,8 @@ public class ProgramWithIO {
 
 	do {
 	    // Print prompt
-	    System.out.println("Please enter 'Add', 'Edit', 'Search', 'Checkout', 'Return', 'Delete', 'Order', or 'End'");
+	    System.out.println(
+		    "Please enter 'Reports', 'Add', 'Edit', 'Search', 'Checkout', 'Return', 'Delete', 'Order', 'Add patron', 'Delete patron' or 'End'");
 
 	    // Try read next line
 	    try {
@@ -45,6 +46,9 @@ public class ProgramWithIO {
 	    switch (nextLine) {
 	    case "add":
 		InputManager.addItem(reader, conn);
+		break;
+	    case "reports":
+		InputManager.Report(reader, conn);
 		break;
 	    case "edit":
 		InputManager.editEntry(reader, conn);
@@ -63,10 +67,16 @@ public class ProgramWithIO {
 		InputManager.deleteEntry(reader, conn);
 		break;
 	    case "order":
-		InputManager.addOrder(reader,conn);
+		InputManager.addOrder(reader, conn);
 		break;
 	    case "end":
 		System.out.println("Closing program");
+		break;
+	    case "add patron":
+		InputManager.addPatron(reader, conn);
+		break;
+	    case "delete patron":
+		InputManager.deactivateCard(reader, conn);
 		break;
 	    default:
 		System.out.println("Input not recognized.");
