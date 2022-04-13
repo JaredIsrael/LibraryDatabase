@@ -12,3 +12,8 @@ CREATE INDEX RETURN_INDEX ON RETURN (
     checkout_date COLLATE BINARY
 );
 
+CREATE INDEX COPY_INDEX ON COPY (
+    inventory_number COLLATE BINARY,
+    doi_eidr COLLATE BINARY
+    location COLLATE BINARY
+);
