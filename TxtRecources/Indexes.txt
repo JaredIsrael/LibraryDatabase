@@ -1,19 +1,24 @@
 CREATE UNIQUE INDEX PERSON_ID_INDEX ON PERSON (
-    library_id COLLATE BINARY ASC
+    library_id
 );
 
 CREATE UNIQUE INDEX MEDIA_ITEM_INDEX ON MEDIA_ITEM (
-    doi_eidr COLLATE BINARY ASC
+    doi_eidr
 );
 
-CREATE INDEX RETURN_INDEX ON RETURN (
-    inventory_number COLLATE BINARY,
-    library_id COLLATE BINARY,
-    checkout_date COLLATE BINARY
+
+CREATE INDEX RETURN_INDEX_ID ON RETURN (
+    library_id
 );
 
-CREATE INDEX COPY_INDEX ON COPY (
-    inventory_number COLLATE BINARY,
-    doi_eidr COLLATE BINARY
-    location COLLATE BINARY
+CREATE INDEX RETURN_INDEX_DATE ON RETURN (
+    inventory_number,
+    checkout_date
 );
+
+CREATE INDEX COPY_TREE ON COPY (
+    inventory_number,
+    doi_eidr,
+    location
+);
+
