@@ -1,20 +1,13 @@
-CREATE VIEW ARIST_ALBUM_COUNT (
-    Name,
-    Count
-)
-AS
-    SELECT P.name,
-           COUNT( * ) 
-      FROM (
-               (
-                   MUSICAL_ARTIST AS MA
-                   JOIN
-                   PERSON AS P ON MA.library_id = P.library_id
-               )
-               JOIN
-               MUSICAL_ALBUM AS A ON A.library_id = P.library_id
-           )
-     GROUP BY P.name;
+CREATE VIEW PATRONS_WITH_ACCESS AS
+    SELECT name,
+           email,
+           library_id
+      FROM LIBRARY_PATRON AS LP,
+           PERSON AS P
+     WHERE LP.library_id = P.library_id AND 
+           LP.access_credientials = 1;
+
+
 
 CREATE VIEW AUDIOBOOK_BY_GENRE AS
     SELECT title,
