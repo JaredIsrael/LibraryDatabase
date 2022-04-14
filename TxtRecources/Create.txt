@@ -1,3 +1,5 @@
+PRAGMA foreign_keys=0;
+
 CREATE TABLE MEDIA_ITEM(
 title VARCHAR(100) NOT NULL,
 doi_eidr VARCHAR(50) NOT NULL,
@@ -144,3 +146,82 @@ PRIMARY KEY(inventory_number,library_id,checkout_date),
 FOREIGN KEY(inventory_number) REFERENCES COPY(inventory_number),
 FOREIGN KEY(library_id) REFERENCES LIBRARY_PATRON(library_id)
 );
+
+CREATE VIEW PATRONS_WITH_ACCESS AS
+    SELECT name,
+           email,
+           library_id
+      FROM LIBRARY_PATRON AS LP,
+           PERSON AS P
+     WHERE LP.library_id = P.library_id AND 
+           LP.access_credientials = 1;
+
+
+
+CREATE VIEW AUDIOBOOK_BY_GENRE AS
+    SELECT title,
+           genre,
+           name
+      FROM (
+               AUDIOBOOK AS AB
+               JOIN
+               MEDIA_ITEM AS MI ON AB.doi_eidr = MI.doi_eidr
+           ),
+           Person AS P
+     WHERE author_library_id = P.library_id;
+
+CREATE VIEW AVAILABLE_COPIES (
+    Title,
+    Available
+)
+AS
+    SELECT MI.title,
+           COUNT( * ) 
+      FROM (
+               (
+                   MEDIA_ITEM AS MI
+                   JOIN
+                   AUDIOBOOK AS A ON MI.doi_eidr = A.doi_eidr
+               )
+               JOIN
+               COPY AS C ON C.doi_eidr = MI.doi_eidr
+           )
+     WHERE C.patron_id IS NULL
+     GROUP BY MI.title;
+     
+     CREATE VIEW SONGS_BY_GENRE AS
+    SELECT name,
+           genre
+      FROM (
+               MUSICAL_ALBUM AS MA
+               JOIN
+               SONG AS S ON MA.doi_eidr = S.doi_eidr
+           )
+     ORDER BY name ASC;
+
+
+CREATE UNIQUE INDEX PERSON_ID_INDEX ON PERSON (
+    library_id
+);
+
+CREATE UNIQUE INDEX MEDIA_ITEM_INDEX ON MEDIA_ITEM (
+    doi_eidr
+);
+
+
+CREATE INDEX RETURN_INDEX_ID ON RETURN (
+    library_id
+);
+
+CREATE INDEX RETURN_INDEX_DATE ON RETURN (
+    inventory_number,
+    checkout_date
+);
+
+CREATE INDEX COPY_TREE ON COPY (
+    inventory_number,
+    doi_eidr,
+    location
+);
+
+
